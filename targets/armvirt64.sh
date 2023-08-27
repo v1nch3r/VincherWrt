@@ -32,6 +32,7 @@ add_custom_file () {
 ## add universal package
     wget -P ${imagebuilder_path}/packages/ -i ${make_path}/repository/target/universal.txt || error_msg
 ## load custom
+    chmod +x ${make_path}/load-custom/custom-armvirt64.sh
     sh ${make_path}/load-custom/custom-armvirt64.sh
 }
 
