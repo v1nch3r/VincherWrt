@@ -33,7 +33,7 @@ add_custom_file () {
     tar -xzvf ${make_path}/*.tgz -C ${imagebuilder_path}/bin/
     rm -f ${make_path}/*.tgz && rm -f ${imagebuilder_path}/bin/speedtest.*
     wget -P ${imagebuilder_path}/bin/ ${neofetch_repo} || error_msg
-    unzip ${imagebuilder_path}/packages/passwall*.zip
+    unzip ${imagebuilder_path}/packages/*.zip || error_msg
 }
 
 add_clash_core
