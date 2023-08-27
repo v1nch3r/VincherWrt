@@ -1,1 +1,30 @@
 
+name: armvirt64
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    if: ${{ github.event.repository.owner.id }} == ${{ github.event.sender.id }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@main
+
+      - name: run armvirt64
+        run: |
+          sudo chmod +x targets/armvirt64.sh
+          sudo ./targets/armvirt64.sh
+          sudo timedatectl set-timezone Asia/Jakarta
+          echo "BUILD_TAG=VincherWrt-21.02.5-$(date +"%Y.%m.%d")" >> ${GITHUB_ENV}
+ 
+      - name: Upload OpenWrt Firmware to Release
+        uses: ncipollo/release-action@main
+        if: ${{ env.PACKAGED_STATUS }} == 'success' && !cancelled()
+        with:
+          tag: ${{ env.BUILD_TAG }}
+          artifacts: "*.img.gz"
+          allowUpdates: true
+          token: ${{ secrets.GITHUB_TOKEN }}
