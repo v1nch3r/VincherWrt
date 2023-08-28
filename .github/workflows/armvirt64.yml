@@ -3,6 +3,14 @@ name: armvirt64
 on:
   workflow_dispatch:
 
+env:
+  REPO_URL: https://github.com/v1nch3r/amlogic-openwrt.git
+  REPO_BRANCH: main
+  PROC_LISTS: s905x_s905w_s912
+  KERNEL_VR: 5.4.128
+  KERNEL_REPO: v1nch3r/kernel
+  TZ: Asia/Jakarta
+
 jobs:
   build:
     runs-on: ubuntu-20.04
@@ -12,18 +20,29 @@ jobs:
       - name: Checkout
         uses: actions/checkout@main
 
-      - name: run armvirt64
+      - name: Building
         run: |
           sudo chmod +x targets/armvirt64.sh
           sudo ./targets/armvirt64.sh
-          sudo timedatectl set-timezone Asia/Jakarta
+          sudo timedatectl set-timezone "${TZ}"
           echo "BUILD_TAG=VincherWrt-21.02.5-$(date +"%Y.%m.%d")" >> ${GITHUB_ENV}
+     
+      - name: Cloning Source
+        run: |
+          df -hT $PWD
+          git clone --depth 1 $REPO_URL
+     
+      - name: Repacking
+        run: |
+          sudo mkdir -p amlogic-openwrt/openwrt-armvirt
+          chmod +x amlogic-openwrt/make
+          sudo ./amlogic-openwrt/make -b $PROC_LISTS -k $KERNEL_VR -r $KERNEL_REPO -a false
  
       - name: Upload OpenWrt Firmware to Release
         uses: ncipollo/release-action@main
         if: ${{ env.PACKAGED_STATUS }} == 'success' && !cancelled()
         with:
           tag: ${{ env.BUILD_TAG }}
-          artifacts: "*.img.gz"
+          artifacts: "amlogic-openwrt/out/*.img.gz"
           allowUpdates: true
           token: ${{ secrets.GITHUB_TOKEN }}
