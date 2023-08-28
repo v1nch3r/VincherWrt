@@ -32,14 +32,15 @@ add_custom_file () {
 ## add universal package
     wget -P ${imagebuilder_path}/packages/ -i ${make_path}/repository/target/universal.txt || error_msg
 ## load custom
-    sh ${make_path}/load-custom/armvirt64.sh || error_msg
+    sh ${make_path}/load-custom/custom-armvirt64.sh
 }
 
 build_rootfs () {
     my_packages="$(cat "${make_path}/universal.txt")"
     cd ${imagebuilder_path}
     make image PROFILE="Default" PACKAGES="${my_packages}" FILES="files" || error_msg
-    cd ${make_path}
+## relocate rootfs
+    mv ${make_path}/bin/targets/${targets}/64/*-default-rootfs.tar.gz ${make_path}/amlogic-openwrt/openwrt-armvirt/
 }
 
 download_imagebuilder
