@@ -1,4 +1,4 @@
 https://github.com/v1nch3r/kmod-inet-diag/releases/download/v21.02.5-armvirt/kmod-inet-diag_5.4.215-1_aarch64_cortex-a53.ipk
 https://github.com/v1nch3r/modem-support/releases/download/21.02.5-armvirt64/sms-tool_2022-03-21-f07699ab-1_aarch64_cortex-a53.ipk
 https://github.com/v1nch3r/modem-support/releases/download/21.02.5-armvirt64/atinout_0.9.1_aarch64_cortex-a53.ipk
-https://github.com/v1nch3r/passwall-binaries/releases/download/21.02.5-armvirt64/passwall_packages_ipk_aarch64_cortex-a53.zip
+https://github.com/xiaorouji/openwrt-passwall2/releases/download/1.16-7/passwall2_packages_ipk_aarch64_cortex-a53.zip
