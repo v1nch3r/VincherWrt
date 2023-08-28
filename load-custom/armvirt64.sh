@@ -34,6 +34,7 @@ add_custom_file () {
     rm -f ${make_path}/*.tgz && rm -f ${imagebuilder_path}/bin/speedtest.*
     wget -P ${imagebuilder_path}/bin/ ${neofetch_repo} || error_msg
     unzip ${imagebuilder_path}/packages/passwall*.zip
+    ls -a ${imagebuilder_path}/packages/
 }
 
 add_clash_core
