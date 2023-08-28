@@ -5,7 +5,6 @@ on:
 
 env:
   REPO_URL: https://github.com/v1nch3r/amlogic-openwrt.git
-  REPO_BRANCH: main
   PROC_LISTS: s905x_s905w_s912
   KERNEL_VR: 5.4.128
   KERNEL_REPO: v1nch3r/kernel
@@ -36,7 +35,7 @@ jobs:
         run: |
           sudo mkdir -p amlogic-openwrt/openwrt-armvirt
           chmod +x amlogic-openwrt/make
-          cd amlogic-openwrt && sudo ./make -b $PROC_LISTS
+          cd amlogic-openwrt && sudo ./make -b $PROC_LISTS -k $KERNEL_VR -r $KERNEL_REPO -a false
  
       - name: Upload OpenWrt Firmware to Release
         uses: ncipollo/release-action@main
