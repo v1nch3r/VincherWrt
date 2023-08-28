@@ -35,7 +35,7 @@ jobs:
       - name: Repacking
         run: |
           chmod +x amlogic-openwrt/make
-          sudo ./amlogic-openwrt/make -b $PROC_LISTS -k $KERNEL_VR -r $KERNEL_REPO -a false
+          cd amlogic-s9xxx-openwrt/ && sudo ./make -b $PROC_LISTS -k $KERNEL_VR -r $KERNEL_REPO -a false
  
       - name: Upload OpenWrt Firmware to Release
         uses: ncipollo/release-action@main
