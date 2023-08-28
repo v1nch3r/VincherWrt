@@ -34,7 +34,7 @@ jobs:
      
       - name: Repacking
         run: |
-          chmod +x amlogic-openwrt/make
+          chmod +x amlogic-s9xxx-openwrt/make
           cd amlogic-s9xxx-openwrt/ && sudo ./make -b $PROC_LISTS -k $KERNEL_VR -r $KERNEL_REPO -a false
  
       - name: Upload OpenWrt Firmware to Release
