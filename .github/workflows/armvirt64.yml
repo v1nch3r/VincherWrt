@@ -36,7 +36,7 @@ jobs:
         run: |
           sudo mkdir -p amlogic-openwrt/openwrt-armvirt
           chmod +x amlogic-openwrt/make
-          cd amlogic-openwrt && ./make -b $PROC_LISTS
+          cd amlogic-openwrt && sudo ./make -b $PROC_LISTS
  
       - name: Upload OpenWrt Firmware to Release
         uses: ncipollo/release-action@main
