@@ -18,6 +18,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@main
+        
+      - name: Cloning Source
+        run: |
+          df -hT $PWD
+          git clone --depth 1 $REPO_URL
 
       - name: Building
         run: |
@@ -25,11 +30,6 @@ jobs:
           sudo ./targets/armvirt64.sh
           sudo timedatectl set-timezone "${TZ}"
           echo "BUILD_TAG=VincherWrt-21.02.5-$(date +"%Y.%m.%d")" >> ${GITHUB_ENV}
-     
-      - name: Cloning Source
-        run: |
-          df -hT $PWD
-          git clone --depth 1 $REPO_URL
      
       - name: Repacking
         run: |
