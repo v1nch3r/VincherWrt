@@ -18,7 +18,7 @@ error_msg() {
 }
 
 add_clash_core () {
-    mkdir -p ${imagebuilder_path}/etc/openclash/core/ && cd ${imagebuilder_path}/etc/openclash/core/
+    mkdir -p ${imagebuilder_path}/files/etc/openclash/core/ && cd ${imagebuilder_path}/files/etc/openclash/core/
     wget ${clash} && gunzip *.gz || error_msg
     mv -f clash-* clash && rm -f *.gz
     wget ${clash_tun} && gunzip *.gz || error_msg
@@ -28,14 +28,21 @@ add_clash_core () {
 }
 
 add_custom_file () {
-    mkdir -p ${imagebuilder_path}/bin/
+    ## add speestest
+    mkdir -p ${imagebuilder_path}/files/bin/
     wget -P ${make_path}/ ${speedtest_repo} || error_msg
-    tar -xzvf ${make_path}/*.tgz -C ${imagebuilder_path}/bin/
-    rm -f ${make_path}/*.tgz && rm -f ${imagebuilder_path}/bin/speedtest.*
-    wget -P ${imagebuilder_path}/bin/ ${neofetch_repo} || error_msg
+    tar -xzvf ${make_path}/*.tgz -C ${imagebuilder_path}/files/bin/
+    rm -f ${make_path}/*.tgz && rm -f ${imagebuilder_path}/files/bin/speedtest.*
+    ## add neofetch
+    wget -P ${imagebuilder_path}/files/bin/ ${neofetch_repo} || error_msg
+    ## unzip passwall
     unzip ${imagebuilder_path}/packages/passwall*.zip -d ${imagebuilder_path}/packages/
+    ## add scripts to uci-defaults
+    mkdir -p ${imagebuilder_path}/files/etc/uci-defaults
+    mv -f ${make_path}/scripts/* ${imagebuilder_path}/files/etc/uci-defaults/
 }
 
 add_clash_core
 add_custom_file
+
 exit 0

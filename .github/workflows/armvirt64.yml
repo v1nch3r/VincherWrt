@@ -50,6 +50,6 @@ jobs:
         if: ${{ env.PACKAGED_STATUS }} == 'success' && !cancelled()
         with:
           tag: ${{ env.BUILD_TAG }}
-          artifacts: "amlogic-openwrt/out/*.img.gz"
+          artifacts: "amlogic-openwrt/out/*.img.gz,amlogic-openwrt/out/*.tar.gz"
           allowUpdates: true
           token: ${{ secrets.GITHUB_TOKEN }}
