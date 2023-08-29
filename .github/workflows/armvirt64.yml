@@ -8,6 +8,7 @@ env:
   PROC_LISTS: s905x_s905w_s912
   KERNEL_VR: 5.4.128
   KERNEL_REPO: v1nch3r/kernel
+  BRANCH: 21.02.5
   TZ: Asia/Jakarta
 
 jobs:
@@ -38,7 +39,7 @@ jobs:
           sudo chmod +x targets/armvirt64.sh
           sudo ./targets/armvirt64.sh
           sudo timedatectl set-timezone "${TZ}"
-          echo "BUILD_TAG=VincherWrt-21.02.5-$(date +"%Y.%m.%d")" >> ${GITHUB_ENV}
+          echo "BUILD_TAG=VincherWrt-${BRANCH}-$(date +"%Y.%m.%d")" >> ${GITHUB_ENV}
      
       - name: Repacking
         run: |
@@ -50,6 +51,6 @@ jobs:
         if: ${{ env.PACKAGED_STATUS }} == 'success' && !cancelled()
         with:
           tag: ${{ env.BUILD_TAG }}
-          artifacts: "amlogic-openwrt/out/*.img.gz,amlogic-openwrt/out/*.tar.gz"
+          artifacts: "amlogic-openwrt/out/*.img.gz,amlogic-openwrt/openwrt-armvirt/*.tar.gz"
           allowUpdates: true
           token: ${{ secrets.GITHUB_TOKEN }}
