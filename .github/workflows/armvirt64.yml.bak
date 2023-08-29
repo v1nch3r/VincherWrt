@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 env:
-  REPO_URL: https://github.com/v1nch3r/amlogic-openwrt.git
+  REPO_URL: https://github.com/v1nch3r/amlogic-s9xxx-openwrt.git
   PROC_LISTS: s905x_s905w_s912
   KERNEL_VR: 5.4.128
   KERNEL_REPO: v1nch3r/kernel
@@ -33,8 +33,8 @@ jobs:
      
       - name: Repacking
         run: |
-          chmod +x amlogic-openwrt/make
-          cd amlogic-openwrt/ && sudo ./make -b $PROC_LISTS -k $KERNEL_VR -r $KERNEL_REPO -a false
+          chmod +x amlogic-s9xxx-openwrt/make
+          cd amlogic-s9xxx-openwrt/ && sudo ./make -b $PROC_LISTS -k $KERNEL_VR -r $KERNEL_REPO -a false
  
       - name: Upload OpenWrt Firmware to Release
         uses: ncipollo/release-action@main

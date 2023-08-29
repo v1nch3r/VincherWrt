@@ -40,8 +40,8 @@ build_rootfs () {
     cd ${imagebuilder_path}
     make image PROFILE="Default" PACKAGES="${my_packages}" FILES="files" || error_msg
 ## relocate rootfs
-    mkdir -p ${make_path}/amlogic-openwrt/openwrt-armvirt
-    mv ${imagebuilder_path}/bin/targets/${targets}/64/*-default-rootfs.tar.gz ${make_path}/amlogic-openwrt/openwrt-armvirt/
+    mkdir -p ${make_path}/amlogic-s9xxx-openwrt/openwrt-armvirt
+    mv ${imagebuilder_path}/bin/targets/${targets}/64/*-default-rootfs.tar.gz ${make_path}/amlogic-s9xxx-openwrt/openwrt-armvirt/
 }
 
 download_imagebuilder
