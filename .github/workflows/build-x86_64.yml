@@ -1,0 +1,42 @@
+name: Build x86_64
+
+on:
+  workflow_dispatch:
+
+env:
+  BRANCH: 21.02.5
+  TZ: Asia/Jakarta
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    if: ${{ github.event.repository.owner.id }} == ${{ github.event.sender.id }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@main
+        
+      - name: Initialization environment
+        run: |
+          sudo rm -rf /usr/share/dotnet /etc/apt/sources.list.d /usr/local/lib/android 2>/dev/null
+          sudo -E apt-get -y update
+          sudo -E apt-get -y install qemu-utils mkisofs
+          sudo -E apt-get -y purge azure-cli ghc* zulu* llvm* firefox google* dotnet* powershell openjdk* mongodb* moby* || true
+          sudo -E apt-get -y autoremove --purge
+          sudo -E apt-get clean
+
+      - name: Building
+        run: |
+          sudo chmod +x targets/x86_64.sh
+          sudo ./targets/x86_64.sh
+          sudo timedatectl set-timezone "${TZ}"
+          echo "BUILD_TAG=VincherWrt-${BRANCH}-$(date +"%Y.%m.%d")" >> ${GITHUB_ENV}
+ 
+      - name: Upload OpenWrt Firmware to Release
+        uses: ncipollo/release-action@main
+        if: ${{ env.PACKAGED_STATUS }} == 'success' && !cancelled()
+        with:
+          tag: ${{ env.BUILD_TAG }}
+          artifacts: "openwrt/bin/targets/x86/64/*ext4-combined*,openwrt/bin/targets/x86/64/*squashfs-combined*"
+          allowUpdates: true
+          token: ${{ secrets.GITHUB_TOKEN }}

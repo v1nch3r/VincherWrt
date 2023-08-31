@@ -1,0 +1,4 @@
+https://github.com/v1nch3r/kmod-inet-diag/releases/download/v21.02.5-x86_64/kmod-inet-diag_5.4.215-1_x86_64.ipk
+https://github.com/v1nch3r/modem-support/releases/download/21.02.5-x86_64/sms-tool_2022-03-21-f07699ab-1_x86_64.ipk
+https://github.com/v1nch3r/modem-support/releases/download/21.02.5-x86_64/atinout_0.9.1_x86_64.ipk
+https://github.com/xiaorouji/openwrt-passwall2/releases/download/1.16-7/passwall2_packages_ipk_x86_64.zip
