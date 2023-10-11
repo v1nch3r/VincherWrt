@@ -11,6 +11,7 @@ clash_tun="https://release.dreamacro.workers.dev/2023.03.18/clash-linux-amd64-20
 clash_meta="https://github.com/djoeni/Clash.Meta/releases/download/Prerelease-WSS/Clash.Meta-linux-amd64-compatible-36e3318.gz"
 speedtest_repo="https://install.speedtest.net/app/cli/ookla-speedtest-1.2.0-linux-x86_64.tgz"
 neofetch_repo="https://raw.githubusercontent.com/dylanaraps/neofetch/master/neofetch"
+custom_banner="https://raw.githubusercontent.com/v1nch3r/amlogic-openwrt/main/make-openwrt/openwrt-files/common-files/etc/banner"
 
 error_msg() {
     echo -e "${ERROR} ${1}"
@@ -40,6 +41,8 @@ add_custom_file () {
     ## add scripts to uci-defaults
     mkdir -p ${imagebuilder_path}/files/etc/uci-defaults
     mv -f ${make_path}/scripts/* ${imagebuilder_path}/files/etc/uci-defaults/
+    ## add custom banner
+    wget -P ${imagebuilder_path}/files/etc/ ${custom_banner} || error_msg
 }
 
 add_clash_core
