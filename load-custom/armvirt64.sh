@@ -11,6 +11,7 @@ clash_tun="https://release.dreamacro.workers.dev/2023.05.19/clash-linux-arm64-20
 clash_meta="https://github.com/djoeni/Clash.Meta/releases/download/Prerelease-WSS/Clash.Meta-linux-arm64-36e3318.gz"
 speedtest_repo="https://install.speedtest.net/app/cli/ookla-speedtest-1.2.0-linux-aarch64.tgz"
 neofetch_repo="https://raw.githubusercontent.com/dylanaraps/neofetch/master/neofetch"
+mac80211="https://raw.githubusercontent.com/v1nch3r/openwrt/openwrt-21.02/package/kernel/mac80211/files/lib/wifi/mac80211.sh"
 
 error_msg() {
     echo -e "${ERROR} ${1}"
@@ -40,6 +41,9 @@ add_custom_file () {
     ## add scripts to uci-defaults
     mkdir -p ${imagebuilder_path}/files/etc/uci-defaults
     mv -f ${make_path}/scripts/* ${imagebuilder_path}/files/etc/uci-defaults/
+    ## custom mac80211
+    mkdir -p ${imagebuilder_path}/files/lib/wifi
+    wget -P ${imagebuilder_path}/files/lib/wifi/ ${mac80211} || error_msg
 }
 
 add_clash_core
