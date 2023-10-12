@@ -98,12 +98,6 @@ otherconfig () {
     # Add auto clearcache crontabs
     chmod +x /sbin/clearcache.sh
     echo "0 * * * * /sbin/clearcache.sh" >> /etc/crontabs/root
-    
-    # set wireless
-    uci set wireless.default_radio0.ssid=VincherWrt
-    uci set wireless.default_radio0.disabled=0
-    uci commit wireless
-    wifi reload
 }
 
 phpfix
