@@ -74,8 +74,8 @@ setiface () {
     
     # firewall
     uci add_list firewall.@zone[1].network='wan1'
-uci add_list firewall.@zone[1].network='wan2'
-uci add_list firewall.@zone[1].network='wan3'
+    uci add_list firewall.@zone[1].network='wan2'
+    uci add_list firewall.@zone[1].network='wan3'
     uci commit firewall
 }
 
