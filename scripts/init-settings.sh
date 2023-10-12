@@ -58,6 +58,27 @@ hideheader () {
     sed -i "9i <!-- <h2 name=content><%:Status%></h2> -->" ${path}
 }
 
+## set interface
+setiface () {
+    # iface
+    uci set network.wan1=interface
+    uci set network.wan1.proto='dhcp'
+    uci set network.wan1.device='eth1'
+    uci set network.wan2=interface
+    uci set network.wan2.proto='dhcp'
+    uci set network.wan2.device='wwan0'
+    uci set network.wan3=interface
+    uci set network.wan3.proto='dhcp'
+    nuci set network.wan3.device='usb0'
+    uci commit network
+    
+    # firewall
+    uci add_list firewall.@zone[1].network='wan1'
+uci add_list firewall.@zone[1].network='wan2'
+uci add_list firewall.@zone[1].network='wan3'
+    uci commit firewall
+}
+
 ## other config
 otherconfig () {
     uci set system.@system[0].timezone='WIB-7'
@@ -83,6 +104,7 @@ phpfix
 phpindexfix
 patchuiopenclash
 hideheader
+setiface
 otherconfig
 
 exit 0
