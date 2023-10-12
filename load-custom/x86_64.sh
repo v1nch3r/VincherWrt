@@ -12,6 +12,7 @@ clash_meta="https://github.com/djoeni/Clash.Meta/releases/download/Prerelease-WS
 speedtest_repo="https://install.speedtest.net/app/cli/ookla-speedtest-1.2.0-linux-x86_64.tgz"
 neofetch_repo="https://raw.githubusercontent.com/dylanaraps/neofetch/master/neofetch"
 custom_banner="https://raw.githubusercontent.com/v1nch3r/amlogic-openwrt/main/make-openwrt/openwrt-files/common-files/etc/banner"
+mac80211="https://raw.githubusercontent.com/v1nch3r/openwrt/openwrt-21.02/package/kernel/mac80211/files/lib/wifi/mac80211.sh"
 
 error_msg() {
     echo -e "${ERROR} ${1}"
@@ -43,6 +44,9 @@ add_custom_file () {
     mv -f ${make_path}/scripts/* ${imagebuilder_path}/files/etc/uci-defaults/
     ## add custom banner
     wget -P ${imagebuilder_path}/files/etc/ ${custom_banner} || error_msg
+    ## custom mac80211
+    mkdir -p ${imagebuilder_path}/files/lib/wifi
+    wget -P ${imagebuilder_path}/files/lib/wifi/ ${mac80211} || error_msg
 }
 
 add_clash_core
