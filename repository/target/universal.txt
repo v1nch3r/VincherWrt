@@ -14,6 +14,6 @@ https://github.com/v1nch3r/modem-support/releases/download/21.02.5-generic/modem
 https://github.com/v1nch3r/modem-support/releases/download/21.02.5-generic/xmm-modem_0.0.1-4_all.ipk
 https://github.com/v1nch3r/openwrt-packages/releases/download/generic/luci-app-ccleaner_1.0_all.ipk
 https://github.com/v1nch3r/openwrt-packages/releases/download/generic/luci-app-temp-status_0.3-6_all.ipk
-https://github.com/v1nch3r/openwrt-packages/releases/download/generic/luci-app-ethernet-status_1.0_all.ipk
+https://github.com/v1nch3r/openwrt-packages/releases/download/generic/luci-app-ethernet-status_1.1_all.ipk
 https://github.com/xiaorouji/openwrt-passwall2/releases/download/1.16-7/luci-app-passwall2_1.16-7_all.ipk
 https://github.com/vernesong/OpenClash/releases/download/v0.45.121-beta/luci-app-openclash_0.45.121-beta_all.ipk
