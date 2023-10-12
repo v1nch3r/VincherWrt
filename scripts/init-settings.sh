@@ -99,7 +99,8 @@ otherconfig () {
     chmod +x /sbin/clearcache.sh
     echo "0 * * * * /sbin/clearcache.sh" >> /etc/crontabs/root
     
-    # auto enable wireless
+    # set wireless
+    uci set wireless.default_radio0.ssid=VincherWrt
     uci set wireless.default_radio0.disabled=0
     uci commit wireless
     wifi reload
