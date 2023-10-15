@@ -17,3 +17,4 @@ https://github.com/v1nch3r/openwrt-packages/releases/download/generic/luci-app-t
 https://github.com/v1nch3r/openwrt-packages/releases/download/generic/luci-app-ethernet-status_1.1_all.ipk
 https://github.com/xiaorouji/openwrt-passwall2/releases/download/1.16-7/luci-app-passwall2_1.16-7_all.ipk
 https://github.com/vernesong/OpenClash/releases/download/v0.45.121-beta/luci-app-openclash_0.45.121-beta_all.ipk
+https://github.com/lisaac/luci-app-diskman/releases/download/v0.2.11/luci-app-diskman_v0.2.11_all.ipk
