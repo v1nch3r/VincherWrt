@@ -54,3 +54,4 @@ jobs:
           artifacts: "amlogic-openwrt/out/*.img.gz,amlogic-openwrt/openwrt-armvirt/*.tar.gz"
           allowUpdates: true
           token: ${{ secrets.GITHUB_TOKEN }}
+          bodyFile: release_body.txt
