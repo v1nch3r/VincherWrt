@@ -40,3 +40,4 @@ jobs:
           artifacts: "openwrt/bin/targets/x86/64/*ext4-combined*,openwrt/bin/targets/x86/64/*squashfs-combined*"
           allowUpdates: true
           token: ${{ secrets.GITHUB_TOKEN }}
+          bodyFile: release_body.txt
