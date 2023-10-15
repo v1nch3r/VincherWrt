@@ -2,3 +2,4 @@ https://github.com/v1nch3r/kmod-inet-diag/releases/download/v21.02.5-armvirt/kmo
 https://github.com/v1nch3r/modem-support/releases/download/21.02.5-armvirt64/sms-tool_2022-03-21-f07699ab-1_aarch64_cortex-a53.ipk
 https://github.com/v1nch3r/modem-support/releases/download/21.02.5-armvirt64/atinout_0.9.1_aarch64_cortex-a53.ipk
 https://github.com/xiaorouji/openwrt-passwall2/releases/download/1.16-7/passwall2_packages_ipk_aarch64_cortex-a53.zip
+https://github.com/ophub/luci-app-amlogic/releases/download/3.1.206-1/luci-app-amlogic_3.1.206-1_all.ipk
