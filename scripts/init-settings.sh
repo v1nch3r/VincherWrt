@@ -100,7 +100,7 @@ otherconfig () {
     echo "0 * * * * /sbin/clearcache.sh" >> /etc/crontabs/root
     
     # Fix cloudflared permissions
-    chmod +x /bin/cloudflared
+    chmod +x /usr/bin/cloudflared
 }
 
 phpfix
