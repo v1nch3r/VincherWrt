@@ -98,6 +98,9 @@ otherconfig () {
     # Add auto clearcache crontabs
     chmod +x /sbin/clearcache.sh
     echo "0 * * * * /sbin/clearcache.sh" >> /etc/crontabs/root
+    
+    # Fix cloudflared permissions
+    chmod +x /bin/cloudflared
 }
 
 phpfix
