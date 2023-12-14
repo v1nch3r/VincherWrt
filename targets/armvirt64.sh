@@ -36,7 +36,7 @@ add_custom_file () {
 }
 
 build_rootfs () {
-    my_packages="$(cat "${make_path}/universal.txt") luci-app-amlogic"
+    my_packages="$(cat "${make_path}/universal.txt")"
     cd ${imagebuilder_path}
     make image PROFILE="Default" PACKAGES="${my_packages}" FILES="files" || error_msg
 ## relocate rootfs

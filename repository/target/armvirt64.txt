@@ -4,3 +4,5 @@ https://github.com/v1nch3r/modem-support/releases/download/21.02.5-armvirt64/ati
 https://github.com/xiaorouji/openwrt-passwall2/releases/download/1.16-7/passwall2_packages_ipk_aarch64_cortex-a53.zip
 https://github.com/v1nch3r/ROOterSource2102/releases/download/21.02.5-armvirt/rmbim_2021-08-18-de562310-0_aarch64_cortex-a53.ipk
 https://github.com/v1nch3r/ROOterSource2102/releases/download/21.02.5-armvirt/rqmi_2021-11-06-6f956265-0_aarch64_cortex-a53.ipk
+https://github.com/v1nch3r/ROOterSource2102/releases/download/21.02.5-armvirt/luci-proto-3x_1.0-1_aarch64_cortex-a53.ipk
+https://github.com/v1nch3r/ROOterSource2102/releases/download/21.02.5-armvirt/luci-proto-mbim_1.0-1_aarch64_cortex-a53.ipk
