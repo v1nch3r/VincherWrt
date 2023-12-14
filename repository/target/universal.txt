@@ -19,3 +19,6 @@ https://github.com/xiaorouji/openwrt-passwall2/releases/download/1.16-7/luci-app
 https://github.com/vernesong/OpenClash/releases/download/v0.45.121-beta/luci-app-openclash_0.45.121-beta_all.ipk
 https://github.com/lisaac/luci-app-diskman/releases/download/v0.2.11/luci-app-diskman_v0.2.11_all.ipk
 https://github.com/v1nch3r/openwrt-packages/releases/download/generic/luci-app-cloudflared_1.0.1-20232507_all.ipk
+https://github.com/v1nch3r/ROOterSource2102/releases/download/21.02.5-armvirt/ext-buttons_1.000-1_all.ipk
+https://github.com/v1nch3r/ROOterSource2102/releases/download/21.02.5-armvirt/ext-rooter-basic_4.500-1_all.ipk
+https://github.com/v1nch3r/ROOterSource2102/releases/download/21.02.5-armvirt/ext-sms_1.000-1_all.ipk
