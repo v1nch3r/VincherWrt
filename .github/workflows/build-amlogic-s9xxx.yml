@@ -39,7 +39,7 @@ jobs:
           sudo chmod +x targets/armvirt64.sh
           sudo ./targets/armvirt64.sh
           sudo timedatectl set-timezone "${TZ}"
-          echo "BUILD_TAG=VincherWrt-${BRANCH}-$(date +"%Y.%m.%d")" >> ${GITHUB_ENV}
+          echo "BUILD_TAG=VincherWrt-ROOter-${BRANCH}-$(date +"%Y.%m.%d")" >> ${GITHUB_ENV}
      
       - name: Repacking
         run: |
