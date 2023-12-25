@@ -24,6 +24,7 @@ download_imagebuilder () {
     mv -f openwrt-imagebuilder-* ${openwrt_dir}
 #    mv -f custom-files/repositories.conf ${imagebuilder_path}
     sed -i "s|CONFIG_TARGET_ROOTFS_PARTSIZE=104|CONFIG_TARGET_ROOTFS_PARTSIZE=800|g" ${imagebuilder_path}/.config || error_msg
+    sed -i "s|CONFIG_PACKAGE_uqmi=m|CONFIG_PACKAGE_uqmi=n|g" ${imagebuilder_path}/.config || error_msg
 }
 
 add_custom_file () {

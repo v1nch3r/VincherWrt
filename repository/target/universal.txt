@@ -3,7 +3,7 @@ https://github.com/v1nch3r/openwrt-packages/releases/download/23.05-generic/luci
 https://github.com/v1nch3r/openwrt-packages/releases/download/23.05-generic/luci-app-netmon_1.2_all.ipk
 https://github.com/helmiau/helmiwrt-packages/releases/download/ipk/luci-app-shutdown_1.3_all.ipk
 https://github.com/v1nch3r/openwrt-packages/releases/download/23.05-generic/luci-app-tinyfm_1.2_all.ipk
-https://github.com/v1nch3r/openwrt-packages/releases/download/generic/luci-app-base64_1.2_all.ipk
+https://github.com/v1nch3r/openwrt-packages/releases/download/23.05-generic/luci-app-base64_1.2_all.ipk
 https://github.com/rufengsuixing/luci-app-adguardhome/releases/download/1.8-11/luci-app-adguardhome_1.8-11_all.ipk
 https://github.com/rufengsuixing/luci-app-zerotier/releases/download/1.0-16/luci-app-zerotier_1.0-16_all.ipk
 https://github.com/v1nch3r/modem-support/releases/download/23.05.2-generic/luci-app-modeminfo_0.3.9-4_all.ipk
