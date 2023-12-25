@@ -38,7 +38,7 @@ add_custom_file () {
 build_rootfs () {
     my_packages="$(cat "${make_path}/universal.txt")"
     cd ${imagebuilder_path}
-    make image PROFILE="Default" PACKAGES="${my_packages}" FILES="files" || error_msg
+    make image PROFILE="generic" PACKAGES="${my_packages}" FILES="files" || error_msg
 ## relocate rootfs
     mkdir -p ${make_path}/amlogic-openwrt/openwrt-armvirt
     mv ${imagebuilder_path}/bin/targets/${targets}/64/*-default-rootfs.tar.gz ${make_path}/amlogic-openwrt/openwrt-armvirt/
