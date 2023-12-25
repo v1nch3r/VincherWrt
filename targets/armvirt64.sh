@@ -8,10 +8,10 @@ imagebuilder_path="${make_path}/${openwrt_dir}"
 
 # targets
 releases="$(cat "${make_path}/openwrt-version.txt")"
-targets="armvirt"
+targets="armsr"
 
 # repository
-imagebuilder_repo="https://downloads.openwrt.org/releases/${releases}/targets/${targets}/64/openwrt-imagebuilder-${releases}-${targets}-64.Linux-x86_64.tar.xz"
+imagebuilder_repo="https://downloads.openwrt.org/releases/${releases}/targets/${targets}/armv8/openwrt-imagebuilder-${releases}-${targets}-armv8.Linux-x86_64.tar.xz"
 
 error_msg() {
     echo -e "${ERROR} ${1}"
