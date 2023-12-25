@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 env:
-  BRANCH: 21.02.5
+  BRANCH: 23.02.5
   TZ: Asia/Jakarta
 
 jobs:
