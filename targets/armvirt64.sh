@@ -42,7 +42,7 @@ build_rootfs () {
     make image PROFILE="generic" PACKAGES="${my_packages}" FILES="files" || error_msg
 ## relocate rootfs
     mkdir -p ${make_path}/amlogic-openwrt/openwrt-armvirt
-    find ${imagebuilder_path}/ -type f -name '*-default-rootfs.tar.gz' -exec mv -t ${make_path}/amlogic-openwrt/openwrt-armvirt/ {} +
+    find ${imagebuilder_path}/bin/targets/*/*/ -type f -name '*rootfs.tar.gz' -exec mv -t ${make_path}/amlogic-openwrt/openwrt-armvirt/ {} +
 }
 
 download_imagebuilder
