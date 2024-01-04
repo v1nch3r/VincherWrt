@@ -1,1 +1,1 @@
--dnsmasq ext-rooter-basic
+-dnsmasq -uqmi rqmi rmbim luci-proto-mbim luci-proto-3x ext-sms ext-rooter-basic ext-buttons
