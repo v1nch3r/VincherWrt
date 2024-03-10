@@ -52,11 +52,11 @@ patchuiopenclash () {
 }
 
 ## hide header name
-headerpath="/usr/lib/lua/luci/view/admin_status/index.htm"
-hideheader () {
-    sed -i "9d" ${headerpath}
-    sed -i "9i <!-- <h2 name=content><%:Status%></h2> -->" ${path}
-}
+#headerpath="/usr/lib/lua/luci/view/admin_status/index.htm"
+#hideheader () {
+#    sed -i "9d" ${headerpath}
+#    sed -i "9i <!-- <h2 name=content><%:Status%></h2> -->" ${path}
+#}
 
 ## set interface
 setiface () {
@@ -106,7 +106,6 @@ otherconfig () {
 phpfix
 phpindexfix
 patchuiopenclash
-hideheader
 setiface
 otherconfig
 
