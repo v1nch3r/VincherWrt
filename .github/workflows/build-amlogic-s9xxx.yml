@@ -45,7 +45,7 @@ jobs:
         run: |
           chmod +x amlogic-openwrt/make
           cd amlogic-openwrt/ && sudo ./make -b $PROC_LISTS -k $KERNEL_VR -r $KERNEL_REPO -a false
-          find ../amlogic-openwrt/ -type f -name '*.img.gz' -exec mv -t ../amlogic-openwrt/out/ {} +
+          sudo find ../amlogic-openwrt/ -type f -name '*.img.gz' -exec mv -t ../amlogic-openwrt/out/ {} +
  
       - name: Upload OpenWrt Firmware to Release
         uses: ncipollo/release-action@main
