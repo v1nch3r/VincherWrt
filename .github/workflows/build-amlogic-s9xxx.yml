@@ -45,13 +45,14 @@ jobs:
         run: |
           chmod +x amlogic-openwrt/make
           cd amlogic-openwrt/ && sudo ./make -b $PROC_LISTS -k $KERNEL_VR -r $KERNEL_REPO -a false
+          find ../amlogic-openwrt/ -type f -name '*.img.gz' -exec mv -t ../amlogic-openwrt/out/ {} +
  
       - name: Upload OpenWrt Firmware to Release
         uses: ncipollo/release-action@main
         if: ${{ env.PACKAGED_STATUS }} == 'success' && !cancelled()
         with:
           tag: ${{ env.BUILD_TAG }}
-          artifacts: "amlogic-openwrt/out/*,amlogic-openwrt/openwrt-armvirt/*.tar.gz"
+          artifacts: "amlogic-openwrt/out/*.img.gz,amlogic-openwrt/openwrt-armvirt/*.tar.gz"
           allowUpdates: true
           token: ${{ secrets.GITHUB_TOKEN }}
           bodyFile: release_body.txt
