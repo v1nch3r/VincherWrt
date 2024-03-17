@@ -92,12 +92,16 @@ otherconfig () {
     echo "0 * * * * /sbin/clearcache.sh" >> /etc/crontabs/root
     
     # Fix cloudflared permissions
-    chmod +x /usr/bin/cloudflared
+    #chmod +x /usr/bin/cloudflared
 
     # Delete unused menu
     rm -r /usr/lib/lua/luci/controller/buttons.lua
     rm -r /usr/lib/lua/luci/controller/poweroff.lua
     rm -r /usr/lib/lua/luci/controller/rebootmodem.lua
+
+    # Fix usb-modeswitch
+    sed -i "2d" /etc/hotplug.d/usb/20-usb_mode
+    sed -i "2i /sbin/usbmode -s" /etc/hotplug.d/usb/20-usb_mode
 }
 
 phpfix
