@@ -81,8 +81,8 @@ otherconfig () {
     uci commit system
 
     # Fix luci-app-atinout-mod
-    chmod +x /usr/bin/luci-app-atinout
-    chmod +x /sbin/set_at_port.sh
+    #chmod +x /usr/bin/luci-app-atinout
+    #chmod +x /sbin/set_at_port.sh
 
     # Fix neofetch Permissions
     chmod +x /bin/neofetch
@@ -98,6 +98,9 @@ otherconfig () {
     rm -r /usr/lib/lua/luci/controller/buttons.lua
     rm -r /usr/lib/lua/luci/controller/poweroff.lua
     rm -r /usr/lib/lua/luci/controller/rebootmodem.lua
+
+    # Fix wireless
+    ln -sf /lib/netifd/wireless/mac80211.sh /lib/netifd/
 
     # Fix usb-modeswitch
     sed -i "2d" /etc/hotplug.d/usb/20-usb_mode
