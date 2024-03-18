@@ -21,3 +21,5 @@ https://github.com/v1nch3r/ROOterSource2305/releases/download/23.05.2-armvirt/ex
 https://github.com/v1nch3r/ROOterSource2305/releases/download/23.05.2-armvirt/ext-rooter-basic_4.500-1_all.ipk
 https://github.com/v1nch3r/ROOterSource2305/releases/download/23.05.2-armvirt/ext-sms_1.000-1_all.ipk
 https://github.com/v1nch3r/ROOterSource2305/releases/download/23.05.2-armvirt/luci-proto-mbim_unknown_all.ipk
+https://github.com/v1nch3r/openwrt-packages/releases/download/23.05-generic/luci-app-pppoe-server_20211223_all.ipk
+https://github.com/douglarek/luci-app-homeproxy/releases/download/2024031600/luci-app-homeproxy_release-2024031600_all.ipk
