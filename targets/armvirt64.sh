@@ -11,7 +11,7 @@ releases="$(cat "${make_path}/openwrt-version.txt")"
 targets="armsr"
 
 # repository
-imagebuilder_repo="https://downloads.openwrt.org/releases/${releases}/targets/${targets}/armv8/openwrt-imagebuilder-${releases}-${targets}-armv8.Linux-x86_64.tar.xz"
+imagebuilder_repo="https://downloads.immortalwrt.org/releases/${releases}/targets/${targets}/armv8/immortalwrt-imagebuilder-${releases}-${targets}-armv8.Linux-x86_64.tar.xz"
 
 error_msg() {
     echo -e "${ERROR} ${1}"
@@ -20,8 +20,8 @@ error_msg() {
 
 download_imagebuilder () {
     wget ${imagebuilder_repo} || error_msg
-    tar -xJf openwrt-imagebuilder-* && rm -f openwrt-imagebuilder-*.tar.xz
-    mv -f openwrt-imagebuilder-* ${openwrt_dir}
+    tar -xJf immortalwrt-imagebuilder-* && rm -f immortalwrt-imagebuilder-*.tar.xz
+    mv -f immortalwrt-imagebuilder-* ${openwrt_dir}
 #    mv -f custom-files/repositories.conf ${imagebuilder_path}
     sed -i "s|CONFIG_TARGET_ROOTFS_PARTSIZE=104|CONFIG_TARGET_ROOTFS_PARTSIZE=800|g" ${imagebuilder_path}/.config || error_msg
     sed -i "s|CONFIG_PACKAGE_uqmi=m|CONFIG_PACKAGE_uqmi=n|g" ${imagebuilder_path}/.config || error_msg
