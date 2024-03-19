@@ -8,7 +8,6 @@ env:
   PROC_LISTS: s905x3_s905x2_s905x_s905w_s905d_s922x_s912_s905_s905l2_s905l3_s905l3a_s905l3b
   KERNEL_VR: 5.4.128_5.4.185
   KERNEL_REPO: v1nch3r/kernel
-  BRANCH: 23.02.5
   TZ: Asia/Jakarta
 
 jobs:
@@ -39,7 +38,7 @@ jobs:
           sudo chmod +x targets/armvirt64.sh
           sudo ./targets/armvirt64.sh
           sudo timedatectl set-timezone "${TZ}"
-          echo "BUILD_TAG=VincherWrt-ROOter-${BRANCH}-$(date +"%Y.%m.%d")" >> ${GITHUB_ENV}
+          echo "BUILD_TAG=VincherWrt-ROOter-$(cat openwrt-version.txt)-$(date +"%Y.%m.%d")" >> ${GITHUB_ENV}
      
       - name: Repacking
         run: |
