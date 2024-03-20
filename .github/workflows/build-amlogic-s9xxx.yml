@@ -1,4 +1,4 @@
-name: Testing Build Amlogic
+name: Build Amlogic s9xxx
 
 on:
   workflow_dispatch:
