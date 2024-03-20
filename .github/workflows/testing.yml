@@ -43,7 +43,7 @@ jobs:
       - name: Repacking
         run: |
           chmod +x amlogic-openwrt/make
-          cd amlogic-openwrt/ && sudo ./make -b s905x -k 5.15.100_5.15.15_5.15.51_5.15.55_5.15.86_5.4.185_5.4.195_5.4.200_5.4.222_5.4.223_5.5.5_5.9.16_6.0.0_6.0.1_6.0.6_6.1.0_6.1.6_6.2.0-rc8+_6.2.0_6.3.3 -r armarchindo/kernel -u kernel_kernel.org -a false
+          cd amlogic-openwrt/ && sudo ./make -b s905x -k 5.15.100_5.15.15_5.15.51_5.15.55_5.15.86_5.4.185_5.4.195_5.4.200_5.4.222_5.4.223_5.5.5_5.9.16_6.0.0_6.0.1_6.0.6_6.1.0_6.1.6_6.2.0-rc8+_6.2.0_6.3.3 -r armarchindo/kernel -u kernel.org -a false
  
       - name: Upload OpenWrt Firmware to Release
         uses: ncipollo/release-action@main
