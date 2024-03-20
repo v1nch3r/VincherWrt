@@ -1,0 +1,56 @@
+name: Build Amlogic s9xxx
+
+on:
+  workflow_dispatch:
+
+env:
+  REPO_URL: https://github.com/v1nch3r/amlogic-openwrt.git
+  PROC_LISTS: s905x3_s905x2_s905x_s905w_s905d_s922x_s912_s905_s905l2_s905l3_s905l3a_s905l3b
+  KERNEL_VR: 5.4.128_5.4.185
+  KERNEL_REPO: v1nch3r/kernel
+  TZ: Asia/Jakarta
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    if: ${{ github.event.repository.owner.id }} == ${{ github.event.sender.id }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@main
+        
+      - name: Initialization environment
+        run: |
+          sudo rm -rf /usr/share/dotnet /etc/apt/sources.list.d /usr/local/lib/android 2>/dev/null
+          sudo -E apt-get -y update
+          sudo -E apt-get -y install pigz qemu-utils mkisofs
+          sudo -E apt-get -y purge azure-cli ghc* zulu* llvm* firefox google* dotnet* powershell openjdk* mongodb* moby* || true
+          sudo -E apt-get -y autoremove --purge
+          sudo -E apt-get clean
+        
+      - name: Cloning Source
+        run: |
+          df -hT $PWD
+          git clone --depth 1 $REPO_URL
+
+      - name: Building
+        run: |
+          sudo chmod +x targets/armvirt64.sh
+          sudo ./targets/armvirt64.sh
+          sudo timedatectl set-timezone "${TZ}"
+          echo "BUILD_TAG=Testing-ImmortalWrt-ROOter-$(cat openwrt-version.txt)" >> ${GITHUB_ENV}
+     
+      - name: Repacking
+        run: |
+          chmod +x amlogic-openwrt/make
+          cd amlogic-openwrt/ && sudo ./make -b s905x -k 5.15.100_5.15.15_5.15.51_5.15.55_5.15.86_5.4.185_5.4.195_5.4.200_5.4.222_5.4.223_5.5.5_5.9.16_6.0.0_6.0.1_6.0.6_6.1.0_6.1.6_6.2.0-rc8+_6.2.0_6.3.3 -r armarchindo/kernel -u kernel_kernel.org -a false
+ 
+      - name: Upload OpenWrt Firmware to Release
+        uses: ncipollo/release-action@main
+        if: ${{ env.PACKAGED_STATUS }} == 'success' && !cancelled()
+        with:
+          tag: ${{ env.BUILD_TAG }}
+          artifacts: "amlogic-openwrt/openwrt/out/*.img.gz,amlogic-openwrt/openwrt-armvirt/*.tar.gz"
+          allowUpdates: true
+          token: ${{ secrets.GITHUB_TOKEN }}
+          bodyFile: release_body.txt
