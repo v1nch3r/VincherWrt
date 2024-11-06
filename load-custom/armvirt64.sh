@@ -6,12 +6,12 @@ make_path="$(pwd)"
 openwrt_dir="openwrt"
 imagebuilder_path="${make_path}/${openwrt_dir}"
 
-clash="https://github.com/Kuingsmile/clash-core/releases/download/1.18/clash-linux-arm64-v1.18.0.gz"
-clash_tun="https://github.com/Kuingsmile/clash-core/releases/download/premium/clash-linux-arm64-2023.08.17.gz"
-clash_meta="https://github.com/djoeni/Clash.Meta/releases/download/Prerelease-WSS/Clash.Meta-linux-arm64-36e3318.gz"
+clash="https://raw.githubusercontent.com/vernesong/OpenClash/refs/heads/core/master/dev/clash-linux-arm64.tar.gz"
+clash_tun="https://raw.githubusercontent.com/vernesong/OpenClash/refs/heads/core/master/premium/clash-linux-arm64-2023.08.17-13-gdcc8d87.gz"
+clash_meta="https://github.com/MetaCubeX/mihomo/releases/download/v1.18.10/mihomo-linux-arm64-v1.18.10.gz"
 speedtest_repo="https://install.speedtest.net/app/cli/ookla-speedtest-1.2.0-linux-aarch64.tgz"
 neofetch_repo="https://raw.githubusercontent.com/dylanaraps/neofetch/master/neofetch"
-mac80211="https://raw.githubusercontent.com/v1nch3r/openwrt/openwrt-21.02/package/kernel/mac80211/files/lib/wifi/mac80211.sh"
+# mac80211="https://raw.githubusercontent.com/v1nch3r/openwrt/openwrt-21.02/package/kernel/mac80211/files/lib/wifi/mac80211.sh"
 
 error_msg() {
     echo -e "${ERROR} ${1}"
@@ -20,12 +20,14 @@ error_msg() {
 
 add_clash_core () {
     mkdir -p ${imagebuilder_path}/files/etc/openclash/core/ && cd ${imagebuilder_path}/files/etc/openclash/core/
-    wget ${clash} && gunzip *.gz || error_msg
-    mv -f clash-* clash && rm -f *.gz
+    # wget ${clash} && gunzip *.gz || error_msg
+    # mv -f clash-* clash && rm -f *.gz
+    wget ${clash} && tar xOvz *tar.gz || error_msg
+    mv -f clash-* clash && rm -f *tar.gz
     wget ${clash_tun} && gunzip *.gz || error_msg
     mv -f clash-* clash_tun && rm -f *.gz
     wget ${clash_meta} && gunzip *.gz || error_msg
-    mv -f Clash.* clash_meta && rm -f *.gz
+    mv -f mihomo.* clash_meta && rm -f *.gz
 }
 
 add_custom_file () {
@@ -42,8 +44,8 @@ add_custom_file () {
     mkdir -p ${imagebuilder_path}/files/etc/uci-defaults
     mv -f ${make_path}/scripts/* ${imagebuilder_path}/files/etc/uci-defaults/
     ## custom mac80211
-    mkdir -p ${imagebuilder_path}/files/lib/wifi
-    wget -P ${imagebuilder_path}/files/lib/wifi/ ${mac80211} || error_msg
+    ## mkdir -p ${imagebuilder_path}/files/lib/wifi
+    ## wget -P ${imagebuilder_path}/files/lib/wifi/ ${mac80211} || error_msg
 }
 
 add_clash_core

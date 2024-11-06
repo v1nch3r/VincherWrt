@@ -1,5 +1,5 @@
 https://github.com/v1nch3r/modem-support/releases/download/23.05.2-armvirt64/atinout_0.9.1_aarch64_generic.ipk
-https://github.com/xiaorouji/openwrt-passwall2/releases/download/1.21-3/passwall2_packages_ipk_aarch64_generic.zip
+https://github.com/xiaorouji/openwrt-passwall/releases/download/4.78-4/passwall_packages_ipk_aarch64_generic.zip
 https://github.com/v1nch3r/ROOterSource2305/releases/download/23.05.2-armvirt/rmbim_2021-08-18-de562310-0_aarch64_generic.ipk
 https://github.com/v1nch3r/ROOterSource2305/releases/download/23.05.2-armvirt/rqmi_2022-05-04-56cb2d40-5_aarch64_generic.ipk
 https://github.com/v1nch3r/ROOterSource2305/releases/download/23.05.2-armvirt/luci-proto-3x_1.0-1_aarch64_generic.ipk
