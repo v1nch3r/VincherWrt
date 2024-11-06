@@ -92,12 +92,12 @@ otherconfig () {
     echo "0 * * * * /sbin/clearcache.sh" >> /etc/crontabs/root
     
     # Fix cloudflared permissions
-    chmod +x /usr/bin/cloudflared
+    # chmod +x /usr/bin/cloudflared
 
     # Delete unused menu
-    rm -r /usr/lib/lua/luci/controller/buttons.lua
-    rm -r /usr/lib/lua/luci/controller/poweroff.lua
-    rm -r /usr/lib/lua/luci/controller/rebootmodem.lua
+    # rm -r /usr/lib/lua/luci/controller/buttons.lua
+    # rm -r /usr/lib/lua/luci/controller/poweroff.lua
+    # rm -r /usr/lib/lua/luci/controller/rebootmodem.lua
 }
 
 phpfix
