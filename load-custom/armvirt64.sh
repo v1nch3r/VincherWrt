@@ -22,7 +22,7 @@ add_clash_core () {
     mkdir -p ${imagebuilder_path}/files/etc/openclash/core/ && cd ${imagebuilder_path}/files/etc/openclash/core/
     # wget ${clash} && gunzip *.gz || error_msg
     # mv -f clash-* clash && rm -f *.gz
-    wget ${clash} && tar xOvz *tar.gz || error_msg
+    wget ${clash} && tar xzvf *tar.gz || error_msg
     mv -f clash-* clash && rm -f *tar.gz
     wget ${clash_tun} && gunzip *.gz || error_msg
     mv -f clash-* clash_tun && rm -f *.gz
