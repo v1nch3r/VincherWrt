@@ -29,19 +29,19 @@ phpindexfix () {
 }
 
 ## patch ui openclash
-clientui_path="/usr/lib/lua/luci/model/cbi/openclash/client.lua"
-patchuiopenclash () {
-    sed -i "101s|^|-- |" ${clientui_path}
-    sed -i "131s|^|-- |" ${clientui_path}
-    sed -i "132s|^|-- |" ${clientui_path}
-    sed -i "133s|^|-- |" ${clientui_path}
-    sed -i "134s|^|-- |" ${clientui_path}
-    sed -i "135s|^|-- |" ${clientui_path}
-    sed -i "137s|^|-- |" ${clientui_path}
-    sed -i "138s|^|-- |" ${clientui_path}
-    sed -i "139s|^|-- |" ${clientui_path}
-    sed -i "140s|^|-- |" ${clientui_path}
-}
+# clientui_path="/usr/lib/lua/luci/model/cbi/openclash/client.lua"
+# patchuiopenclash () {
+#    sed -i "101s|^|-- |" ${clientui_path}
+#    sed -i "131s|^|-- |" ${clientui_path}
+#    sed -i "132s|^|-- |" ${clientui_path}
+#    sed -i "133s|^|-- |" ${clientui_path}
+#    sed -i "134s|^|-- |" ${clientui_path}
+#    sed -i "135s|^|-- |" ${clientui_path}
+#    sed -i "137s|^|-- |" ${clientui_path}
+#    sed -i "138s|^|-- |" ${clientui_path}
+#    sed -i "139s|^|-- |" ${clientui_path}
+#    sed -i "140s|^|-- |" ${clientui_path}
+#}
 
 ## hide header name
 #headerpath="/usr/lib/lua/luci/view/admin_status/index.htm"
@@ -51,25 +51,25 @@ patchuiopenclash () {
 #}
 
 ## set interface
-setiface () {
+# setiface () {
     # iface
-    uci set network.wan1=interface
-    uci set network.wan1.proto='dhcp'
-    uci set network.wan1.device='eth1'
-    uci set network.wan2=interface
-    uci set network.wan2.proto='dhcp'
-    uci set network.wan2.device='wwan0'
-    uci set network.wan3=interface
-    uci set network.wan3.proto='dhcp'
-    nuci set network.wan3.device='usb0'
-    uci commit network
+#    uci set network.wan1=interface
+#    uci set network.wan1.proto='dhcp'
+#    uci set network.wan1.device='eth1'
+#    uci set network.wan2=interface
+#    uci set network.wan2.proto='dhcp'
+#    uci set network.wan2.device='wwan0'
+#    uci set network.wan3=interface
+#   uci set network.wan3.proto='dhcp'
+#    nuci set network.wan3.device='usb0'
+#    uci commit network
     
     # firewall
-    uci add_list firewall.@zone[1].network='wan1'
-    uci add_list firewall.@zone[1].network='wan2'
-    uci add_list firewall.@zone[1].network='wan3'
-    uci commit firewall
-}
+#    uci add_list firewall.@zone[1].network='wan1'
+#    uci add_list firewall.@zone[1].network='wan2'
+#    uci add_list firewall.@zone[1].network='wan3'
+#     uci commit firewall
+#}
 
 ## other config
 otherconfig () {
@@ -102,7 +102,7 @@ otherconfig () {
 
 phpfix
 phpindexfix
-patchuiopenclash
+# patchuiopenclash
 setiface
 otherconfig
 

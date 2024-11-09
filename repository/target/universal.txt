@@ -22,3 +22,4 @@ https://github.com/v1nch3r/ROOterSource2305/releases/download/23.05.2-armvirt/ex
 https://github.com/v1nch3r/ROOterSource2305/releases/download/23.05.2-armvirt/ext-sms_1.000-1_all.ipk
 https://github.com/v1nch3r/ROOterSource2305/releases/download/23.05.2-armvirt/luci-proto-mbim_unknown_all.ipk
 https://downloads.immortalwrt.org/releases/23.05.4/packages/aarch64_cortex-a53/luci/luci-app-dockerman_v0.5.26_all.ipk
+https://github.com/4IceG/luci-app-3ginfo-lite/releases/download/1.0.74-20240827/luci-app-3ginfo-lite_1.0.74-20240827_all.ipk
