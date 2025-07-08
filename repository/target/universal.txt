@@ -5,7 +5,7 @@ https://github.com/helmiau/helmiwrt-packages/releases/download/ipk/luci-app-shut
 https://github.com/v1nch3r/openwrt-packages/releases/download/23.05-generic/luci-app-tinyfm_1.2_all.ipk
 https://github.com/v1nch3r/openwrt-packages/releases/download/23.05-generic/luci-app-base64_1.2_all.ipk
 https://github.com/rufengsuixing/luci-app-adguardhome/releases/download/1.8-11/luci-app-adguardhome_1.8-11_all.ipk
-https://downloads.immortalwrt.org/releases/23.05.4/packages/aarch64_cortex-a53/luci/luci-app-zerotier_git-24.272.29284-d386ad6_all.ipk
+https://downloads.immortalwrt.org/releases/24.10.2/packages/aarch64_cortex-a53/luci/luci-app-zerotier_25.184.50942~23154bf_all.ipk
 https://github.com/v1nch3r/modem-support/releases/download/23.05.2-generic/luci-app-modeminfo_0.3.9-4_all.ipk
 https://github.com/v1nch3r/modem-support/releases/download/23.05.2-generic/modeminfo_0.3.9-3_all.ipk
 https://github.com/v1nch3r/modem-support/releases/download/23.05.2-generic/luci-app-atinout-mod_1.3.2-20220315_all.ipk
@@ -16,7 +16,7 @@ https://github.com/v1nch3r/openwrt-packages/releases/download/generic/luci-app-e
 https://github.com/xiaorouji/openwrt-passwall2/releases/download/1.31-1/luci-23.05_luci-app-passwall2_1.31-1_all.ipk
 https://github.com/vernesong/OpenClash/releases/download/v0.46.033-beta/luci-app-openclash_0.46.033-beta_all.ipk
 https://github.com/lisaac/luci-app-diskman/releases/download/v0.2.11/luci-app-diskman_v0.2.11_all.ipk
-https://downloads.immortalwrt.org/releases/23.05.4/packages/aarch64_generic/luci/luci-app-cloudflared_1.2_all.ipk
+https://downloads.immortalwrt.org/releases/24.10.2/packages/aarch64_cortex-a53/luci/luci-app-cloudflared_1.2-r1_all.ipk
 https://github.com/v1nch3r/ROOterSource2305/releases/download/23.05.2-armvirt/ext-buttons_1.000-1_all.ipk
 https://github.com/v1nch3r/ROOterSource2305/releases/download/23.05.2-armvirt/ext-rooter-basic_4.500-1_all.ipk
 https://github.com/v1nch3r/ROOterSource2305/releases/download/23.05.2-armvirt/ext-sms_1.000-1_all.ipk
