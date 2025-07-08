@@ -48,7 +48,7 @@ add_custom_file () {
     ## wget -P ${imagebuilder_path}/files/lib/wifi/ ${mac80211} || error_msg
 }
 
-add_clash_core
+#add_clash_core
 add_custom_file
 
 exit 0
