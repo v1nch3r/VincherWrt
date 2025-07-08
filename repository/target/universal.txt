@@ -1,5 +1,5 @@
-https://downloads.immortalwrt.org/releases/23.05.4/packages/aarch64_cortex-a53/luci/luci-app-argon-config_git-24.272.29284-d386ad6_all.ipk
-https://downloads.immortalwrt.org/releases/23.05.4/packages/aarch64_cortex-a53/luci/luci-theme-argon_2.3.1_all.ipk
+https://downloads.immortalwrt.org/releases/24.10.2/packages/aarch64_cortex-a53/luci/luci-app-argon-config_25.184.50942~23154bf_all.ipk
+https://downloads.immortalwrt.org/releases/24.10.2/packages/aarch64_cortex-a53/luci/luci-theme-argon_2.4.2-r20250617_all.ipk
 https://github.com/v1nch3r/openwrt-packages/releases/download/23.05-generic/luci-app-netmon_1.2_all.ipk
 https://github.com/helmiau/helmiwrt-packages/releases/download/ipk/luci-app-shutdown_1.3_all.ipk
 https://github.com/v1nch3r/openwrt-packages/releases/download/23.05-generic/luci-app-tinyfm_1.2_all.ipk
@@ -21,5 +21,5 @@ https://github.com/v1nch3r/ROOterSource2305/releases/download/23.05.2-armvirt/ex
 https://github.com/v1nch3r/ROOterSource2305/releases/download/23.05.2-armvirt/ext-rooter-basic_4.500-1_all.ipk
 https://github.com/v1nch3r/ROOterSource2305/releases/download/23.05.2-armvirt/ext-sms_1.000-1_all.ipk
 https://github.com/v1nch3r/ROOterSource2305/releases/download/23.05.2-armvirt/luci-proto-mbim_unknown_all.ipk
-https://downloads.immortalwrt.org/releases/23.05.4/packages/aarch64_cortex-a53/luci/luci-app-dockerman_v0.5.26_all.ipk
+https://downloads.immortalwrt.org/releases/24.10.2/packages/aarch64_cortex-a53/luci/luci-app-dockerman_0.5.26-r1_all.ipk
 https://github.com/4IceG/luci-app-3ginfo-lite/releases/download/1.0.74-20240827/luci-app-3ginfo-lite_1.0.74-20240827_all.ipk
