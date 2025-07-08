@@ -20,7 +20,7 @@ error_msg() {
 
 download_imagebuilder () {
     wget ${imagebuilder_repo} || error_msg
-    tar --use-compress-program=unzstd -xJf openwrt-imagebuilder-* && rm -f openwrt-imagebuilder-*.tar.zst
+    tar --use-compress-program=unzstd -xvf openwrt-imagebuilder-* && rm -f openwrt-imagebuilder-*.tar.zst
     mv -f openwrt-imagebuilder-* ${openwrt_dir}
 #    mv -f custom-files/repositories.conf ${imagebuilder_path}
     sed -i "s|CONFIG_TARGET_ROOTFS_PARTSIZE=104|CONFIG_TARGET_ROOTFS_PARTSIZE=800|g" ${imagebuilder_path}/.config || error_msg
