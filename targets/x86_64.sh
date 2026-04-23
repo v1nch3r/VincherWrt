@@ -40,22 +40,38 @@ success_msg() {
     echo -e "${SUCCESS} $1"
 }
 
-retry_download() {
+download_file() {
     local url="$1"
     local dest="$2"
-    local max_retries=3
+    local max_retries=5
     local retry=1
+    local wait=5
     
     while [ $retry -le $max_retries ]; do
-        log "Download attempt $retry/$max_retries: $(basename "$url")"
-        if wget -q -O "$dest" "$url"; then
-            success_msg "Downloaded: $(basename "$url")"
-            return 0
+        log "[$retry/$max_retries] Downloading: $(basename "$url")"
+        # Use wget with -L to follow redirects, --no-check-certificate for HTTPS
+        if wget -q -L --no-check-certificate -O "$dest" "$url"; then
+            # Verify file exists and has content
+            if [ -s "$dest" ]; then
+                success_msg "[$retry/$max_retries] Saved: $(basename "$url") ($(stat -c%s "$dest" 2>/dev/null || echo 'unknown') bytes)"
+                return 0
+            else
+                log "File is empty, retrying..."
+                rm -f "$dest"
+            fi
+        else
+            log "Attempt $retry/$max_retries failed"
         fi
-        log "Retry $retry/$max_retries for $(basename "$url")"
+        
+        if [ $retry -lt $max_retries ]; then
+            log "Waiting ${wait}s before retry..."
+            sleep $wait
+            wait=$((wait * 2))  # Exponential backoff
+        fi
+        
         retry=$((retry + 1))
-        sleep 3
     done
+    
     error_msg "Failed to download after $max_retries attempts: $url"
 }
 
@@ -67,7 +83,7 @@ download_imagebuilder() {
     rm -rf ${openwrt_dir} openwrt-imagebuilder-*.tar.zst 2>/dev/null || true
     
     # Download with retry
-    if ! retry_download "${imagebuilder_repo}" "/tmp/imagebuilder.tar.zst"; then
+    if ! download_file "${imagebuilder_repo}" "/tmp/imagebuilder.tar.zst"; then
         error_msg "Failed to download ImageBuilder"
     fi
     
@@ -90,51 +106,66 @@ download_imagebuilder() {
 add_custom_packages() {
     log "Adding custom packages..."
     
-    # ImageBuilder expects custom packages in the packages/ directory
+    # Create packages directory
     mkdir -p ${imagebuilder_path}/packages
     log "Packages directory: ${imagebuilder_path}/packages"
     
     local download_count=0
     local total_urls=0
+    local failed_urls=""
+    
+    # Download function for packages
+    download_package() {
+        local url="$1"
+        local filename="$(basename "$url")"
+        local dest="${imagebuilder_path}/packages/${filename}"
+        
+        download_file "$url" "$dest"
+    }
     
     # Add x86_64 specific packages
     if [ -f "${make_path}/repository/target/x86_64.txt" ]; then
-        log "Checking x86_64 specific packages..."
+        log "Downloading x86_64 specific packages..."
         while IFS= read -r url; do
             [ -z "$url" ] && continue
             total_urls=$((total_urls + 1))
-            log "Downloading ($total_urls): $(basename "$url")"
-            if wget -q -P ${imagebuilder_path}/packages/ "$url"; then
+            if download_package "$url"; then
                 download_count=$((download_count + 1))
-                success_msg "Saved: $(basename "$url")"
             else
-                log "Failed: $(basename "$url")"
+                failed_urls="${failed_urls}\n  - $url"
             fi
         done < "${make_path}/repository/target/x86_64.txt"
     fi
     
     # Add universal packages
     if [ -f "${make_path}/repository/target/universal.txt" ]; then
-        log "Checking universal packages..."
+        log "Downloading universal packages..."
         while IFS= read -r url; do
             [ -z "$url" ] && continue
             total_urls=$((total_urls + 1))
-            log "Downloading ($total_urls): $(basename "$url")"
-            if wget -q -P ${imagebuilder_path}/packages/ "$url"; then
+            if download_package "$url"; then
                 download_count=$((download_count + 1))
-                success_msg "Saved: $(basename "$url")"
             else
-                log "Failed: $(basename "$url")"
+                failed_urls="${failed_urls}\n  - $url"
             fi
         done < "${make_path}/repository/target/universal.txt"
     fi
     
     # List what was actually downloaded
-    log "=== Downloaded files in packages/ ==="
+    log "=== Files in packages/ ==="
     ls -la ${imagebuilder_path}/packages/
     
     local file_count=$(ls ${imagebuilder_path}/packages/*.apk 2>/dev/null | wc -l)
-    success_msg "Downloaded $download_count/$total_urls packages ($file_count .apk files)"
+    
+    if [ -n "$failed_urls" ]; then
+        log "WARNING: Some downloads failed:${failed_urls}"
+    fi
+    
+    if [ $download_count -eq $total_urls ]; then
+        success_msg "Downloaded $download_count/$total_urls packages ($file_count .apk files)"
+    else
+        log "WARNING: Downloaded $download_count/$total_urls packages ($file_count .apk files)"
+    fi
 }
 
 run_custom_scripts() {
@@ -152,12 +183,11 @@ build_rootfs() {
     local my_packages="$(cat "${make_path}/packages.txt")"
     local package_count=$(echo $my_packages | wc -w)
     log "Installing $package_count packages..."
-    log "Packages: $my_packages"
     
     cd ${imagebuilder_path}
     
-    # List packages directory before build
-    log "=== packages/ before build ==="
+    # Verify packages exist
+    log "=== Verifying packages/ contents ==="
     ls -la packages/
     
     # Build image with local packages
