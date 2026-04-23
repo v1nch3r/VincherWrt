@@ -118,22 +118,22 @@ generate_package_index() {
     log "Generating local package index..."
     
     cd ${imagebuilder_path}/packages
-    if [ -f Packages ]; then
-        rm -f Packages.gz
-    fi
+    rm -f Packages Packages.gz 2>/dev/null || true
     
     # Generate Packages file from all .ipk files
     for ipk in *.ipk; do
         [ -f "$ipk" ] || continue
-        tar -xzf "$ipk" ./info.toml ./control 2>/dev/null || continue
         
-        # Get package info
+        # Extract control.tar.gz to get package info
+        tar -xzf "$ipk" control.tar.gz 2>/dev/null || continue
+        tar -xzf control.tar.gz ./control 2>/dev/null || continue
+        
         if [ -f control ]; then
             Package=$(grep -m1 "^Package:" control | sed 's/^Package: //')
             Version=$(grep -m1 "^Version:" control | sed 's/^Version: //')
             Description=$(grep -m1 "^Description:" control | sed 's/^Description: //')
             Architecture=$(grep -m1 "^Architecture:" control | sed 's/^Architecture: //')
-            Filename="$ipk"
+            Filename="$(basename $ipk)"
             Size=$(stat -c%s "$ipk" 2>/dev/null || echo "0")
             
             echo "Package: $Package" >> Packages
@@ -143,15 +143,18 @@ generate_package_index() {
             echo "Size: $Size" >> Packages
             echo "Description: $Description" >> Packages
             echo "" >> Packages
+            
+            rm -f control
         fi
         
-        rm -f control info.toml 2>/dev/null || true
+        rm -f control.tar.gz 2>/dev/null || true
     done
     
     # Compress Packages
     if [ -f Packages ]; then
         gzip -9 Packages
-        success_msg "Package index generated"
+        local count=$(wc -l < Packages | tr -d ' ')
+        success_msg "Package index generated ($((count / 6)) packages)"
     else
         log "Warning: No packages found to index"
     fi
