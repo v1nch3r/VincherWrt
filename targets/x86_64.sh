@@ -30,13 +30,13 @@ add_custom_file () {
 ## add x86_64 package
     wget -P ${imagebuilder_path}/packages/ -i ${make_path}/repository/target/x86_64.txt || error_msg 
 ## add universal package
-    wget -P ${imagebuilder_path}/packages/ -i ${make_path}/repository/target/all-arch-urls.txt || error_msg
+    wget -P ${imagebuilder_path}/packages/ -i ${make_path}/repository/target/universal.txt || error_msg
 ## load custom
     sh ${make_path}/load-custom/x86_64.sh || error_msg
 }
 
 build_rootfs () {
-    my_packages="$(cat "${make_path}/universal.txt")"
+    my_packages="$(cat "${make_path}/all-arch-packages.txt")"
     cd ${imagebuilder_path}
     make image PROFILE="generic" PACKAGES="${my_packages}" FILES="files" || error_msg
 }
