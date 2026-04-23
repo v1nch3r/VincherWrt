@@ -13,7 +13,7 @@ https://github.com/v1nch3r/modem-support/releases/download/23.05.2-generic/xmm-m
 https://github.com/v1nch3r/openwrt-packages/releases/download/generic/luci-app-ccleaner_1.0_all.ipk
 https://github.com/v1nch3r/openwrt-packages/releases/download/generic/luci-app-temp-status_0.3-6_all.ipk
 https://github.com/v1nch3r/openwrt-packages/releases/download/generic/luci-app-ethernet-status_1.1_all.ipk
-https://github.com/xiaorouji/openwrt-passwall/releases/download/1.31-1/luci-23.05_luci-app-passwall2_1.31-1_all.ipk
+https://github.com/Openwrt-Passwall/openwrt-passwall2/releases/download/1.31-1/luci-23.05_luci-app-passwall2_1.31-1_all.ipk
 https://github.com/vernesong/OpenClash/releases/download/v0.47.088/luci-app-openclash_0.47.088_all.ipk
 https://github.com/lisaac/luci-app-diskman/releases/download/v0.2.11/luci-app-diskman_v0.2.11_all.ipk
 https://downloads.immortalwrt.org/releases/24.10.5/packages/aarch64_cortex-a53/luci/luci-app-cloudflared_1.2-r1_all.ipk
