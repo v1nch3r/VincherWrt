@@ -1,16 +1,11 @@
 #!/bin/sh
 #==========================================================
-# VincherWrt - Load Custom Files for x86_64
-#==========================================================
-
-set -e
 
 # dir path
 make_path="$(pwd)"
 openwrt_dir="openwrt"
 imagebuilder_path="${make_path}/${openwrt_dir}"
 
-# URLs
 clash="https://github.com/Kuingsmile/clash-core/releases/download/v1.18.0/clash-linux-amd64-v1.18.0.gz"
 clash_tun="https://github.com/Kuingsmile/clash-core/releases/download/premium/clash-linux-amd64-2023.08.17.gz"
 clash_meta="https://github.com/djoeni/Clash.Meta/releases/download/Prerelease-WSS/Clash.Meta-linux-amd64-compatible-36e3318.gz"
@@ -20,111 +15,41 @@ custom_banner="https://raw.githubusercontent.com/v1nch3r/amlogic-openwrt/main/ma
 mac80211="https://raw.githubusercontent.com/v1nch3r/openwrt/openwrt-21.02/package/kernel/mac80211/files/lib/wifi/mac80211.sh"
 
 error_msg() {
-    echo "[ERROR] $1" >&2
+    echo -e "${ERROR} ${1}"
     exit 1
 }
 
-log() {
-    echo "[INFO] $1"
+add_clash_core () {
+    mkdir -p ${imagebuilder_path}/files/etc/openclash/core/ && cd ${imagebuilder_path}/files/etc/openclash/core/
+    wget ${clash} && gunzip *.gz || error_msg
+    mv -f clash-* clash && rm -f *.gz
+    wget ${clash_tun} && gunzip *.gz || error_msg
+    mv -f clash-* clash_tun && rm -f *.gz
+    wget ${clash_meta} && gunzip *.gz || error_msg
+    mv -f Clash.* clash_meta && rm -f *.gz
 }
 
-# Download with retry
-download() {
-    local url="$1"
-    local output="$2"
-    local retries=3
-    
-    for i in $(seq 1 $retries); do
-        if wget -q -O "$output" "$url" 2>/dev/null; then
-            return 0
-        fi
-        echo "Retry $i/$retries for $url"
-        sleep 2
-    done
-    return 1
-}
-
-add_clash_core() {
-    log "Adding Clash cores..."
-    
-    local core_dir="${imagebuilder_path}/files/etc/openclash/core"
-    mkdir -p "$core_dir"
-    cd "$core_dir"
-    
-    # Download Clash
-    if download "$clash" "clash.gz"; then
-        gunzip -f *.gz 2>/dev/null || true
-        mv -f clash-* clash 2>/dev/null || true
-        rm -f *.gz
-    else
-        echo "Warning: Failed to download Clash"
-    fi
-    
-    # Download Clash TUN
-    if download "$clash_tun" "clash_tun.gz"; then
-        gunzip -f *.gz 2>/dev/null || true
-        mv -f clash-* clash_tun 2>/dev/null || true
-        rm -f *.gz
-    else
-        echo "Warning: Failed to download Clash TUN"
-    fi
-    
-    # Download Clash Meta
-    if download "$clash_meta" "clash_meta.gz"; then
-        gunzip -f *.gz 2>/dev/null || true
-        mv -f Clash.* clash_meta 2>/dev/null || true
-        rm -f *.gz
-    else
-        echo "Warning: Failed to download Clash Meta"
-    fi
-    
-    log "Clash cores added"
-}
-
-add_custom_files() {
-    log "Adding custom files..."
-    
-    # Speedtest
-    local speedtest_dir="${imagebuilder_path}/files/bin"
-    mkdir -p "$speedtest_dir"
-    cd "$make_path"
-    
-    if download "$speedtest_repo" "speedtest.tgz"; then
-        tar -xzf speedtest.tgz -C "$speedtest_dir/" 2>/dev/null || true
-        rm -f speedtest.tgz
-        rm -f ${speedtest_dir}/speedtest 2>/dev/null || true
-    fi
-    
-    # Neofetch
-    if download "$neofetch_repo" "${imagebuilder_path}/files/bin/neofetch"; then
-        chmod +x ${imagebuilder_path}/files/bin/neofetch
-    fi
-    
-    # Custom banner
-    if download "$custom_banner" "${imagebuilder_path}/files/etc/banner"; then
-        log "Banner added"
-    fi
-    
-    # Scripts to uci-defaults
-    if [ -d "${make_path}/scripts" ]; then
-        mkdir -p ${imagebuilder_path}/files/etc/uci-defaults
-        cp -f ${make_path}/scripts/* ${imagebuilder_path}/files/etc/uci-defaults/ 2>/dev/null || true
-    fi
-    
-    # Custom mac80211
+add_custom_file () {
+    ## add speestest
+    mkdir -p ${imagebuilder_path}/files/bin/
+    wget -P ${make_path}/ ${speedtest_repo} || error_msg
+    tar -xzvf ${make_path}/*.tgz -C ${imagebuilder_path}/files/bin/
+    rm -f ${make_path}/*.tgz && rm -f ${imagebuilder_path}/files/bin/speedtest.*
+    ## add neofetch
+    wget -P ${imagebuilder_path}/files/bin/ ${neofetch_repo} || error_msg
+    ## unzip passwall
+    unzip ${imagebuilder_path}/packages/passwall*.zip -d ${imagebuilder_path}/packages/
+    ## add scripts to uci-defaults
+    mkdir -p ${imagebuilder_path}/files/etc/uci-defaults
+    mv -f ${make_path}/scripts/* ${imagebuilder_path}/files/etc/uci-defaults/
+    ## add custom banner
+    wget -P ${imagebuilder_path}/files/etc/ ${custom_banner} || error_msg
+    ## custom mac80211
     mkdir -p ${imagebuilder_path}/files/lib/wifi
-    download "$mac80211" "${imagebuilder_path}/files/lib/wifi/mac80211.sh"
-    
-    # Unzip passwall packages if exists
-    if ls ${imagebuilder_path}/packages/passwall*.zip 1>/dev/null 2>&1; then
-        unzip -o ${imagebuilder_path}/packages/passwall*.zip -d ${imagebuilder_path}/packages/ 2>/dev/null || true
-    fi
-    
-    log "Custom files added"
+    wget -P ${imagebuilder_path}/files/lib/wifi/ ${mac80211} || error_msg
 }
 
-# Main
-log "=== Load Custom Files for x86_64 ==="
 add_clash_core
-add_custom_files
-log "=== Done ==="
+add_custom_file
+
+exit 0
