@@ -42,17 +42,17 @@ success_msg() {
 
 retry_download() {
     local url="$1"
+    local dest="$2"
     local max_retries=3
     local retry=1
     
     while [ $retry -le $max_retries ]; do
-        log "Download attempt $retry/$max_retries: $(basename $url)"
-        if wget -q -O "/tmp/$(basename $url)" "${url}"; then
-            mv "/tmp/$(basename $url)" "./$(basename $url)"
-            success_msg "Downloaded: $(basename $url)"
+        log "Download attempt $retry/$max_retries: $(basename "$url")"
+        if wget -q -O "$dest" "$url"; then
+            success_msg "Downloaded: $(basename "$url")"
             return 0
         fi
-        log "Retry $retry/$max_retries for $(basename $url)"
+        log "Retry $retry/$max_retries for $(basename "$url")"
         retry=$((retry + 1))
         sleep 3
     done
@@ -67,9 +67,12 @@ download_imagebuilder() {
     rm -rf ${openwrt_dir} openwrt-imagebuilder-*.tar.zst 2>/dev/null || true
     
     # Download with retry
-    if ! retry_download "${imagebuilder_repo}"; then
+    if ! retry_download "${imagebuilder_repo}" "/tmp/imagebuilder.tar.zst"; then
         error_msg "Failed to download ImageBuilder"
     fi
+    
+    # Move to destination
+    mv /tmp/imagebuilder.tar.zst ./openwrt-imagebuilder-${releases}-${targets}-armv8.Linux-x86_64.tar.zst
     
     # Extract
     log "Extracting ImageBuilder..."
@@ -89,32 +92,50 @@ add_custom_packages() {
     log "Adding custom packages..."
     
     # ImageBuilder expects custom packages in the packages/ directory
-    # It automatically generates the index (packages.adb for apk) from .apk files there
     mkdir -p ${imagebuilder_path}/packages
+    log "Packages directory: ${imagebuilder_path}/packages"
+    
+    local download_count=0
+    local total_urls=0
     
     # Add armvirt64 specific packages
     if [ -f "${make_path}/repository/target/armvirt64.txt" ]; then
-        log "Downloading armvirt64 specific packages..."
+        log "Checking armvirt64 specific packages..."
         while IFS= read -r url; do
             [ -z "$url" ] && continue
-            log "Downloading: $(basename $url)"
-            wget -q -P ${imagebuilder_path}/packages/ "${url}" || log "Failed: $(basename $url)"
+            total_urls=$((total_urls + 1))
+            log "Downloading ($total_urls): $(basename "$url")"
+            if wget -q -P ${imagebuilder_path}/packages/ "$url"; then
+                download_count=$((download_count + 1))
+                success_msg "Saved: $(basename "$url")"
+            else
+                log "Failed: $(basename "$url")"
+            fi
         done < "${make_path}/repository/target/armvirt64.txt"
     fi
     
     # Add universal packages
     if [ -f "${make_path}/repository/target/universal.txt" ]; then
-        log "Downloading universal packages..."
+        log "Checking universal packages..."
         while IFS= read -r url; do
             [ -z "$url" ] && continue
-            log "Downloading: $(basename $url)"
-            wget -q -P ${imagebuilder_path}/packages/ "${url}" || log "Failed: $(basename $url)"
+            total_urls=$((total_urls + 1))
+            log "Downloading ($total_urls): $(basename "$url")"
+            if wget -q -P ${imagebuilder_path}/packages/ "$url"; then
+                download_count=$((download_count + 1))
+                success_msg "Saved: $(basename "$url")"
+            else
+                log "Failed: $(basename "$url")"
+            fi
         done < "${make_path}/repository/target/universal.txt"
     fi
     
-    # List downloaded packages
-    local count=$(ls ${imagebuilder_path}/packages/*.apk 2>/dev/null | wc -l)
-    success_msg "Added $count custom packages"
+    # List what was actually downloaded
+    log "=== Downloaded files in packages/ ==="
+    ls -la ${imagebuilder_path}/packages/
+    
+    local file_count=$(ls ${imagebuilder_path}/packages/*.apk 2>/dev/null | wc -l)
+    success_msg "Downloaded $download_count/$total_urls packages ($file_count .apk files)"
 }
 
 run_custom_scripts() {
@@ -132,14 +153,15 @@ build_rootfs() {
     local my_packages="$(cat "${make_path}/packages.txt")"
     local package_count=$(echo $my_packages | wc -w)
     log "Installing $package_count packages..."
+    log "Packages: $my_packages"
     
     cd ${imagebuilder_path}
     
-    # ImageBuilder automatically scans packages/ directory and generates
-    # packages.adb (for apk) or Packages.gz (for opkg) when running make image
-    # No manual index generation needed - just put .apk files in packages/
+    # List packages directory before build
+    log "=== packages/ before build ==="
+    ls -la packages/
     
-    # Build image with local packages (ImageBuilder auto-indexes packages/)
+    # Build image with local packages
     make image PROFILE="generic" PACKAGES="${my_packages}" FILES="files"
     
     # Relocate rootfs for amlogic
