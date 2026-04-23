@@ -124,15 +124,15 @@ generate_package_index() {
     for ipk in *.ipk; do
         [ -f "$ipk" ] || continue
         
-        # Extract control.tar.gz to get package info
-        tar -xzf "$ipk" control.tar.gz 2>/dev/null || continue
-        tar -xzf control.tar.gz ./control 2>/dev/null || continue
+        # Extract control.tar.gz (note: paths in tar have ./ prefix)
+        tar -xzf "$ipk" ./control.tar.gz 2>/dev/null || continue
+        tar -xzf ./control.tar.gz ./control 2>/dev/null || continue
         
-        if [ -f control ]; then
-            Package=$(grep -m1 "^Package:" control | sed 's/^Package: //')
-            Version=$(grep -m1 "^Version:" control | sed 's/^Version: //')
-            Description=$(grep -m1 "^Description:" control | sed 's/^Description: //')
-            Architecture=$(grep -m1 "^Architecture:" control | sed 's/^Architecture: //')
+        if [ -f ./control ]; then
+            Package=$(grep -m1 "^Package:" ./control | sed 's/^Package: //')
+            Version=$(grep -m1 "^Version:" ./control | sed 's/^Version: //')
+            Description=$(grep -m1 "^Description:" ./control | sed 's/^Description: //')
+            Architecture=$(grep -m1 "^Architecture:" ./control | sed 's/^Architecture: //')
             Filename="$(basename $ipk)"
             Size=$(stat -c%s "$ipk" 2>/dev/null || echo "0")
             
@@ -144,10 +144,10 @@ generate_package_index() {
             echo "Description: $Description" >> Packages
             echo "" >> Packages
             
-            rm -f control
+            rm -f ./control
         fi
         
-        rm -f control.tar.gz 2>/dev/null || true
+        rm -f ./control.tar.gz 2>/dev/null || true
     done
     
     # Compress Packages
