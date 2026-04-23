@@ -30,7 +30,7 @@ add_custom_file () {
 ## add x86_64 package
     wget -P ${imagebuilder_path}/packages/ -i ${make_path}/repository/target/x86_64.txt || error_msg 
 ## add universal package
-    wget -P ${imagebuilder_path}/packages/ -i ${make_path}/repository/target/universal.txt || error_msg
+    wget -P ${imagebuilder_path}/packages/ -i ${make_path}/repository/target/packages-urls.txt || error_msg
 ## load custom
     sh ${make_path}/load-custom/x86_64.sh || error_msg
 }
