@@ -9,7 +9,7 @@ openwrt_dir="openwrt"
 imagebuilder_path="${make_path}/${openwrt_dir}"
 
 # PassWall packages (additional dependencies for PassWall2)
-passwall_packages_url="https://github.com/Openwrt-Passwall/openwrt-passwall2/releases/download/26.4.10-1/passwall_packages_ipk_x86_64.zip"
+passwall_packages_url="https://github.com/Openwrt-Passwall/openwrt-passwall2/releases/download/26.4.10-1/passwall_packages_apk_x86_64.zip"
 
 # Clash cores
 clash_core="https://github.com/Kuingsmile/clash-core/releases/download/1.18/clash-linux-amd64-v1.18.0.gz"
