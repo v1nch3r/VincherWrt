@@ -88,7 +88,8 @@ download_imagebuilder() {
 add_custom_packages() {
     log "Adding custom packages..."
     
-    # Create local packages directory
+    # ImageBuilder expects custom packages in the packages/ directory
+    # It automatically generates the index (packages.adb for apk) from .apk files there
     mkdir -p ${imagebuilder_path}/packages
     
     # Add armvirt64 specific packages
@@ -111,55 +112,9 @@ add_custom_packages() {
         done < "${make_path}/repository/target/universal.txt"
     fi
     
-    success_msg "Custom packages downloaded"
-}
-
-generate_package_index() {
-    log "Generating local package index..."
-    
-    cd ${imagebuilder_path}/packages
-    rm -f Packages Packages.gz 2>/dev/null || true
-    
-    # Generate Packages file from all .ipk files
-    for ipk in *.ipk; do
-        [ -f "$ipk" ] || continue
-        
-        # Extract control.tar.gz (note: paths in tar have ./ prefix)
-        tar -xzf "$ipk" ./control.tar.gz 2>/dev/null || continue
-        tar -xzf ./control.tar.gz ./control 2>/dev/null || continue
-        
-        if [ -f ./control ]; then
-            Package=$(grep -m1 "^Package:" ./control | sed 's/^Package: //')
-            Version=$(grep -m1 "^Version:" ./control | sed 's/^Version: //')
-            Description=$(grep -m1 "^Description:" ./control | sed 's/^Description: //')
-            Architecture=$(grep -m1 "^Architecture:" ./control | sed 's/^Architecture: //')
-            Filename="$(basename $ipk)"
-            Size=$(stat -c%s "$ipk" 2>/dev/null || echo "0")
-            
-            echo "Package: $Package" >> Packages
-            echo "Version: $Version" >> Packages
-            echo "Architecture: $Architecture" >> Packages
-            echo "Filename: $Filename" >> Packages
-            echo "Size: $Size" >> Packages
-            echo "Description: $Description" >> Packages
-            echo "" >> Packages
-            
-            rm -f ./control
-        fi
-        
-        rm -f ./control.tar.gz 2>/dev/null || true
-    done
-    
-    # Compress Packages
-    if [ -f Packages ]; then
-        gzip -9 Packages
-        local count=$(wc -l < Packages | tr -d ' ')
-        success_msg "Package index generated ($((count / 6)) packages)"
-    else
-        log "Warning: No packages found to index"
-    fi
-    
-    cd ${make_path}
+    # List downloaded packages
+    local count=$(ls ${imagebuilder_path}/packages/*.apk 2>/dev/null | wc -l)
+    success_msg "Added $count custom packages"
 }
 
 run_custom_scripts() {
@@ -180,10 +135,11 @@ build_rootfs() {
     
     cd ${imagebuilder_path}
     
-    # Add local packages repo to opkg.conf
-    echo "src/gz custom_local file:packages" >> ${imagebuilder_path}/repositories.conf
+    # ImageBuilder automatically scans packages/ directory and generates
+    # packages.adb (for apk) or Packages.gz (for opkg) when running make image
+    # No manual index generation needed - just put .apk files in packages/
     
-    # Build image with local packages
+    # Build image with local packages (ImageBuilder auto-indexes packages/)
     make image PROFILE="generic" PACKAGES="${my_packages}" FILES="files"
     
     # Relocate rootfs for amlogic
@@ -200,7 +156,6 @@ log "OpenWrt Version: ${releases}"
 
 download_imagebuilder
 add_custom_packages
-generate_package_index
 run_custom_scripts
 build_rootfs
 
