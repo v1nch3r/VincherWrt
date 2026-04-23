@@ -1,4 +1,4 @@
-https://downloads.openwrt.org/releases/25.12.2/packages/x86_64/luci/luci-app-dockerman-26.110.45991~3b7a68e.apk
-https://downloads.openwrt.org/releases/25.12.2/packages/x86_64/luci/luci-app-cloudflared-1.2-r1.apk
-https://github.com/vernesong/OpenClash/releases/download/v0.47.088/luci-app-openclash_0.47.088_all.ipk
-https://github.com/Openwrt-Passwall/openwrt-passwall2/releases/download/1.31-1/luci-23.05_luci-app-passwall2_1.31-1_all.ipk
+https://downloads.openwrt.org/releases/25.12.2/packages/aarch64_cortex-a53/luci/luci-app-dockerman-26.110.45991~3b7a68e.apk
+https://downloads.openwrt.org/releases/25.12.2/packages/aarch64_cortex-a53/luci/luci-app-cloudflared-1.2-r1.apk
+https://github.com/vernesong/OpenClash/releases/download/v0.47.088/luci-app-openclash-0.47.088.apk
+https://github.com/Openwrt-Passwall/openwrt-passwall2/releases/download/26.4.20-1/luci-app-passwall2-26.4.20-r1.apk
