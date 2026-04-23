@@ -37,6 +37,7 @@ jobs:
         run: |
           chmod +x targets/armvirt64.sh
           ./targets/armvirt64.sh
+          sudo timedatectl set-timezone "${TZ}"
           echo "BUILD_TAG=VincherWrt-$(cat openwrt-version.txt)-$(date +"%Y.%m.%d")" >> $GITHUB_ENV
           echo "PACKAGED_STATUS=success" >> $GITHUB_ENV
      
