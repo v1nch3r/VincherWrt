@@ -46,8 +46,9 @@ retry_download() {
     local retry=1
     
     while [ $retry -le $max_retries ]; do
-        log "Download attempt $retry/$max_retries: $url"
-        if wget -q --show-progress "${url}"; then
+        log "Download attempt $retry/$max_retries: $(basename $url)"
+        if wget -q -O "/tmp/$(basename $url)" "${url}"; then
+            mv "/tmp/$(basename $url)" "./$(basename $url)"
             success_msg "Downloaded: $(basename $url)"
             return 0
         fi
@@ -83,28 +84,89 @@ download_imagebuilder() {
     success_msg "ImageBuilder ready"
 }
 
-add_custom_file() {
+add_custom_packages() {
     log "Adding custom packages..."
+    
+    # Create local packages directory
+    mkdir -p ${imagebuilder_path}/packages
     
     # Add x86_64 specific packages
     if [ -f "${make_path}/repository/target/x86_64.txt" ]; then
         log "Downloading x86_64 specific packages..."
-        wget -P ${imagebuilder_path}/packages/ -i ${make_path}/repository/target/x86_64.txt || log "Some x86_64 packages failed to download"
+        while IFS= read -r url; do
+            [ -z "$url" ] && continue
+            log "Downloading: $(basename $url)"
+            wget -q -P ${imagebuilder_path}/packages/ "${url}" || log "Failed: $(basename $url)"
+        done < "${make_path}/repository/target/x86_64.txt"
     fi
     
     # Add universal packages
     if [ -f "${make_path}/repository/target/universal.txt" ]; then
         log "Downloading universal packages..."
-        wget -P ${imagebuilder_path}/packages/ -i ${make_path}/repository/target/universal.txt || log "Some universal packages failed to download"
+        while IFS= read -r url; do
+            [ -z "$url" ] && continue
+            log "Downloading: $(basename $url)"
+            wget -q -P ${imagebuilder_path}/packages/ "${url}" || log "Failed: $(basename $url)"
+        done < "${make_path}/repository/target/universal.txt"
     fi
     
-    # Load custom scripts
+    success_msg "Custom packages downloaded"
+}
+
+generate_package_index() {
+    log "Generating local package index..."
+    
+    # Create Packages.gz for local packages
+    cd ${imagebuilder_path}/packages
+    if [ -f Packages ]; then
+        rm -f Packages.gz
+    fi
+    
+    # Generate Packages file from all .ipk files
+    for ipk in *.ipk; do
+        [ -f "$ipk" ] || continue
+        tar -xzf "$ipk" ./info.toml ./control 2>/dev/null || continue
+        
+        # Get package info
+        if [ -f control ]; then
+            Package=$(grep -m1 "^Package:" control | sed 's/^Package: //')
+            Version=$(grep -m1 "^Version:" control | sed 's/^Version: //')
+            Description=$(grep -m1 "^Description:" control | sed 's/^Description: //')
+            Architecture=$(grep -m1 "^Architecture:" control | sed 's/^Architecture: //')
+            Filename="$ipk"
+            Size=$(stat -c%s "$ipk" 2>/dev/null || echo "0")
+            
+            echo "Package: $Package" >> Packages
+            echo "Version: $Version" >> Packages
+            echo "Architecture: $Architecture" >> Packages
+            echo "Filename: $Filename" >> Packages
+            echo "Size: $Size" >> Packages
+            echo "Description: $Description" >> Packages
+            echo "" >> Packages
+        fi
+        
+        rm -f control info.toml 2>/dev/null || true
+    done
+    
+    # Compress Packages
+    if [ -f Packages ]; then
+        gzip -9 Packages
+        success_msg "Package index generated"
+    else
+        log "Warning: No packages found to index"
+    fi
+    
+    cd ${make_path}
+}
+
+run_custom_scripts() {
+    log "Running custom load script..."
+    
     if [ -f "${make_path}/load-custom/x86_64.sh" ]; then
-        log "Running custom load script..."
+        # Copy custom files to imagebuilder
         sh ${make_path}/load-custom/x86_64.sh || log "Custom script had warnings"
+        success_msg "Custom scripts executed"
     fi
-    
-    success_msg "Custom packages added"
 }
 
 build_rootfs() {
@@ -115,6 +177,11 @@ build_rootfs() {
     log "Installing $package_count packages..."
     
     cd ${imagebuilder_path}
+    
+    # Add local packages repo to opkg.conf
+    echo "src/gz custom_local file:packages" >> ${imagebuilder_path}/repositories.conf
+    
+    # Build image with local packages
     make image PROFILE="generic" PACKAGES="${my_packages}" FILES="files"
     
     success_msg "Rootfs built successfully"
@@ -125,7 +192,9 @@ log "=== VincherWrt Build for x86_64 ==="
 log "OpenWrt Version: ${releases}"
 
 download_imagebuilder
-add_custom_file
+add_custom_packages
+generate_package_index
+run_custom_scripts
 build_rootfs
 
 success_msg "=== Build Complete ==="
