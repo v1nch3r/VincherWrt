@@ -1,5 +1,7 @@
 #!/bin/sh
 #==========================================================
+# VincherWrt - Custom Files for x86_64
+#==========================================================
 
 # dir path
 make_path="$(pwd)"
@@ -7,20 +9,14 @@ openwrt_dir="openwrt"
 imagebuilder_path="${make_path}/${openwrt_dir}"
 
 # Clash cores
-clash="https://github.com/Kuingsmile/clash-core/releases/download/v1.18.0/clash-linux-amd64-v1.18.0.gz"
-clash_tun="https://github.com/Kuingsmile/clash-core/releases/download/premium/clash-linux-amd64-2023.08.17.gz"
-clash_meta="https://github.com/djoeni/Clash.Meta/releases/download/Prerelease-WSS/Clash.Meta-linux-amd64-compatible-36e3318.gz"
+# Use clash premium or regular clash as fallback
+clash_core="https://github.com/Kuingsmile/clash-core/releases/download/1.18/clash-linux-amd64-v1.18.0.gz"
 
 # Other downloads
 speedtest_repo="https://install.speedtest.net/app/cli/ookla-speedtest-1.2.0-linux-x86_64.tgz"
 neofetch_repo="https://raw.githubusercontent.com/dylanaraps/neofetch/master/neofetch"
 custom_banner="https://raw.githubusercontent.com/v1nch3r/amlogic-openwrt/main/make-openwrt/openwrt-files/common-files/etc/banner"
 mac80211="https://raw.githubusercontent.com/v1nch3r/openwrt/openwrt-21.02/package/kernel/mac80211/files/lib/wifi/mac80211.sh"
-
-error_msg() {
-    echo -e "${ERROR} ${1}"
-    exit 1
-}
 
 retry_download() {
     local url="$1"
@@ -43,27 +39,14 @@ add_clash_core() {
     mkdir -p "${imagebuilder_path}/files/etc/openclash/core/"
     cd "${imagebuilder_path}/files/etc/openclash/core/" || exit 1
     
-    # Download clash
-    if ! retry_download "${clash}" "clash.gz"; then
-        error_msg "Failed to download clash core"
-    fi
-    gunzip -f *.gz
-    mv -f clash-* clash 2>/dev/null || true
-    
-    # Download clash_tun
-    if ! retry_download "${clash_tun}" "clash_tun.gz"; then
-        echo "Warning: Failed to download clash_tun core"
-    else
+    # Download clash (regular core)
+    if retry_download "${clash_core}" "clash.gz"; then
         gunzip -f *.gz
-        mv -f clash-* clash_tun 2>/dev/null || true
-    fi
-    
-    # Download clash_meta
-    if ! retry_download "${clash_meta}" "clash_meta.gz"; then
-        echo "Warning: Failed to download clash_meta core"
+        mv -f clash-* clash 2>/dev/null || true
+        # Copy as clash_tun as fallback (if premium not available)
+        [ -f clash ] && cp clash clash_tun
     else
-        gunzip -f *.gz
-        mv -f Clash.* clash_meta 2>/dev/null || true
+        echo "Warning: Failed to download clash core"
     fi
     
     rm -f *.gz 2>/dev/null || true

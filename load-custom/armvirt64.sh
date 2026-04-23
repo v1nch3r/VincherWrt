@@ -1,15 +1,16 @@
 #!/bin/sh
 #==========================================================
+# VincherWrt - Custom Files for armvirt64 (Amlogic)
+#==========================================================
 
 # dir path
 make_path="$(pwd)"
 openwrt_dir="openwrt"
 imagebuilder_path="${make_path}/${openwrt_dir}"
 
-# Clash cores for ARM
-clash="https://raw.githubusercontent.com/vernesong/OpenClash/refs/heads/core/master/dev/clash-linux-arm64.tar.gz"
-clash_tun="https://raw.githubusercontent.com/vernesong/OpenClash/refs/heads/core/master/premium/clash-linux-arm64-2023.08.17-13-gdcc8d87.gz"
-clash_meta="https://github.com/MetaCubeX/mihomo/releases/download/v1.18.10/mihomo-linux-arm64-v1.18.10.gz"
+# Clash cores for ARM64 (use MetaCubeX mihomo for reliability)
+clash="https://github.com/Kuingsmile/clash-core/releases/download/1.18/clash-linux-arm64-v1.18.0.gz"
+clash_meta="https://github.com/MetaCubeX/mihomo/releases/download/v1.19.24/mihomo-linux-arm64-v1.19.24.gz"
 
 # Other downloads
 speedtest_repo="https://install.speedtest.net/app/cli/ookla-speedtest-1.2.0-linux-aarch64.tgz"
@@ -48,14 +49,6 @@ add_clash_core() {
         rm -f *tar.gz
     else
         echo "Warning: Failed to download clash core"
-    fi
-    
-    # Download clash_tun
-    if retry_download "${clash_tun}" "clash_tun.gz"; then
-        gunzip -f *.gz
-        mv -f clash-* clash_tun 2>/dev/null || true
-    else
-        echo "Warning: Failed to download clash_tun core"
     fi
     
     # Download clash_meta (mihomo)
