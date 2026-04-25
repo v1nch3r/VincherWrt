@@ -1,0 +1,6 @@
+# VincherWrt - armvirt64 Specific Packages
+# Packages for ARM64 (Amlogic/ARM boards)
+# Currently using official OpenWrt packages only
+
+# For third-party packages, add URL below:
+# Example: https://github.com/user/repo/releases/download/v1.0/package.apk

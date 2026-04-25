@@ -1,0 +1,6 @@
+# VincherWrt - x86_64 Specific Packages
+# Packages for x86_64 architecture (PC/VM)
+# Currently using official OpenWrt packages only
+
+# For third-party packages, add URL below:
+# Example: https://github.com/user/repo/releases/download/v1.0/package.apk
