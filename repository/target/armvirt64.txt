@@ -1,1 +1,1 @@
-https://github.com/v1nch3r/VincherWrt/raw/main/repository/argon/luci-theme-argon-2.4.3.apk
+https://downloads.openwrt.org/releases/25.12.2/packages/aarch64_cortex-a53/luci/luci-app-samba4-26.114.56073~e91321e.apk
