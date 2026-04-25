@@ -1,1 +1,1 @@
-# Empty - all packages are .ipk format (OpenWrt 25.12.2 requires .apk)
+https://github.com/v1nch3r/VincherWrt/raw/main/repository/argon/luci-theme-argon-2.4.3.apk

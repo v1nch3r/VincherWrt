@@ -2,3 +2,4 @@ https://downloads.openwrt.org/releases/25.12.2/packages/aarch64_cortex-a53/luci/
 https://downloads.openwrt.org/releases/25.12.2/packages/aarch64_cortex-a53/luci/luci-app-cloudflared-1.2-r1.apk
 https://github.com/vernesong/OpenClash/releases/download/v0.47.088/luci-app-openclash-0.47.088.apk
 https://github.com/Openwrt-Passwall/openwrt-passwall2/releases/download/26.4.10-1/luci-app-passwall2-26.4.10-r1.apk
+https://github.com/v1nch3r/VincherWrt/raw/main/repository/argon/luci-theme-argon-2.4.3.apk
