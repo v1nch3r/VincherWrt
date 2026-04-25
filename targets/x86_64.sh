@@ -130,7 +130,7 @@ add_custom_packages() {
     }
     
     # Add x86_64 specific packages
-    if [ -f "${make_path}/targets/x86_64.txt" ]; then
+    if [ -f "${make_path}/repository/targets/x86_64.txt" ]; then
         log "Downloading x86_64 specific packages..."
         while IFS= read -r url; do
             [ -z "$url" ] && continue
@@ -142,11 +142,11 @@ add_custom_packages() {
             else
                 failed_urls="${failed_urls}\n  - $url"
             fi
-        done < "${make_path}/targets/x86_64.txt"
+        done < "${make_path}/repository/targets/x86_64.txt"
     fi
     
     # Add universal packages
-    if [ -f "${make_path}/targets/universal.txt" ]; then
+    if [ -f "${make_path}/repository/targets/universal.txt" ]; then
         log "Downloading universal packages..."
         while IFS= read -r url; do
             [ -z "$url" ] && continue
@@ -158,7 +158,7 @@ add_custom_packages() {
             else
                 failed_urls="${failed_urls}\n  - $url"
             fi
-        done < "${make_path}/targets/universal.txt"
+        done < "${make_path}/repository/targets/universal.txt"
     fi
     
     # List what was actually downloaded
