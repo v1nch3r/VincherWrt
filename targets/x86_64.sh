@@ -49,24 +49,30 @@ download_file() {
     
     while [ $retry -le $max_retries ]; do
         log "[$retry/$max_retries] Downloading: $(basename "$url")"
-        # Use wget with -L to follow redirects, --no-check-certificate for HTTPS
-        if wget -q -L --no-check-certificate -O "$dest" "$url"; then
-            # Verify file exists and has content
-            if [ -s "$dest" ]; then
-                success_msg "[$retry/$max_retries] Saved: $(basename "$url") ($(stat -c%s "$dest" 2>/dev/null || echo 'unknown') bytes)"
-                return 0
-            else
-                log "File is empty, retrying..."
-                rm -f "$dest"
-            fi
+        
+        # Capture wget output for error reporting
+        local wget_output
+        wget_output=$(wget -L --no-check-certificate -O "$dest" "$url" 2>&1) || true
+        
+        # Get HTTP status code
+        local http_code
+        http_code=$(curl -sI -o /dev/null -w "%{http_code}" "$url" 2>/dev/null || echo "000")
+        
+        if [ -s "$dest" ]; then
+            success_msg "[$retry/$max_retries] Saved: $(basename "$url") ($(stat -c%s "$dest" 2>/dev/null || echo 'unknown') bytes)"
+            return 0
         else
-            log "Attempt $retry/$max_retries failed"
+            log "ERROR: Download failed for $(basename "$url")"
+            log "  URL: $url"
+            log "  HTTP Code: $http_code"
+            log "  wget output: $wget_output"
+            rm -f "$dest"
         fi
         
         if [ $retry -lt $max_retries ]; then
             log "Waiting ${wait}s before retry..."
             sleep $wait
-            wait=$((wait * 2))  # Exponential backoff
+            wait=$((wait * 2))
         fi
         
         retry=$((retry + 1))
