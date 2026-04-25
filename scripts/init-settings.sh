@@ -32,24 +32,12 @@ uci add_list system.ntp.server='1.id.pool.ntp.org'
 uci add_list system.ntp.server='2.id.pool.ntp.org'
 
 #==============================================
-# 2. NETWORK: DNS, IPv6
-#==============================================
-log "Configuring network..."
-
-# Set DNS ke Cloudflare (cepat & privacy)
-uci set network.wan.dns='1.1.1.1'
-uci add_list network.wan.dns='1.0.0.1'
-uci set network.wan6=dhcp
-uci set network.wan6.enabled='0'
-
-#==============================================
-# 3. COMMIT ALL
+# 2. COMMIT
 #==============================================
 uci commit system
-uci commit network
 
 #==============================================
-# 4. CLEANUP (free space)
+# 3. CLEANUP (free space)
 #==============================================
 log "Cleaning up..."
 
@@ -59,7 +47,7 @@ rm -rf /tmp/luci-modulecache/* 2>/dev/null
 rm -f /var/lock/* 2>/dev/null
 
 #==============================================
-# 5. MARK AS DONE (prevent re-run)
+# 4. MARK AS DONE (prevent re-run)
 #==============================================
 touch /etc/config_init_done
 
