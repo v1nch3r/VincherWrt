@@ -130,7 +130,7 @@ add_custom_packages() {
         while IFS= read -r url; do
             [ -z "$url" ] && continue
             # Skip comments
-            case "$url" in #*) continue ;; esac
+            case "$url" in \#*) continue ;; esac
             total_urls=$((total_urls + 1))
             if download_package "$url"; then
                 download_count=$((download_count + 1))
@@ -146,7 +146,7 @@ add_custom_packages() {
         while IFS= read -r url; do
             [ -z "$url" ] && continue
             # Skip comments
-            case "$url" in #*) continue ;; esac
+            case "$url" in \#*) continue ;; esac
             total_urls=$((total_urls + 1))
             if download_package "$url"; then
                 download_count=$((download_count + 1))
