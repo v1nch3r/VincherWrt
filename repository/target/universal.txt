@@ -1,5 +1,5 @@
-https://downloads.openwrt.org/releases/25.12.2/packages/aarch64_cortex-a53/luci/luci-app-dockerman-26.110.45991~3b7a68e.apk
-https://downloads.openwrt.org/releases/25.12.2/packages/aarch64_cortex-a53/luci/luci-app-cloudflared-1.2-r1.apk
+https://downloads.openwrt.org/releases/25.12.2/packages/aarch64_generic/luci/luci-app-dockerman-26.114.56073~e91321e.apk
+https://downloads.openwrt.org/releases/25.12.2/packages/aarch64_generic/luci/luci-app-cloudflared-1.2-r1.apk
 https://github.com/vernesong/OpenClash/releases/download/v0.47.088/luci-app-openclash-0.47.088.apk
 https://github.com/Openwrt-Passwall/openwrt-passwall2/releases/download/26.4.10-1/luci-app-passwall2-26.4.10-r1.apk
 https://github.com/jerrykuku/luci-theme-argon/releases/download/v2.4.3/luci-theme-argon-2.4.3-r20250722.apk
