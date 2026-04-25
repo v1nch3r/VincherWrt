@@ -1,18 +1,67 @@
 #!/bin/sh
+#==============================================
+# VincherWrt - First Boot Setup
+# Efficient & Maximal
+#==============================================
 
-## other config
-otherconfig() {
-    # Set timezone
-    uci set system.@system[0].timezone='WIB-7'
-    uci set system.@system[0].zonename='Asia/Jakarta'
-    uci commit system
-    
-    # Set Hostname
-    uci set system.@system[0].hostname='VincherWrt'
-    uci commit system
+log() {
+    echo "[init-settings] $1"
 }
 
-# Run
-otherconfig
+# Run once at first boot only
+[ -f /etc/config_init_done ] && exit 0
 
+log "Starting first boot setup..."
+
+#==============================================
+# 1. SYSTEM: Timezone, Hostname, NTP
+#==============================================
+log "Configuring system..."
+
+uci set system.@system[0].timezone='WIB-7'
+uci set system.@system[0].zonename='Asia/Jakarta'
+uci set system.@system[0].hostname='VincherWrt'
+
+# NTP Client - sync dengan server Indonesia
+uci set system.ntp='timeserver'
+uci set system.ntp.enabled='1'
+uci set system.ntp.enable_server='0'
+uci del system.ntp.server 2>/dev/null
+uci add_list system.ntp.server='0.id.pool.ntp.org'
+uci add_list system.ntp.server='1.id.pool.ntp.org'
+uci add_list system.ntp.server='2.id.pool.ntp.org'
+
+#==============================================
+# 2. NETWORK: DNS, IPv6
+#==============================================
+log "Configuring network..."
+
+# Set DNS ke Cloudflare (cepat & privacy)
+uci set network.wan.dns='1.1.1.1'
+uci add_list network.wan.dns='1.0.0.1'
+uci set network.wan6=dhcp
+uci set network.wan6.enabled='0'
+
+#==============================================
+# 3. COMMIT ALL
+#==============================================
+uci commit system
+uci commit network
+
+#==============================================
+# 4. CLEANUP (free space)
+#==============================================
+log "Cleaning up..."
+
+rm -f /tmp/opkg-lists/* 2>/dev/null
+rm -f /tmp/luci-indexcache 2>/dev/null
+rm -rf /tmp/luci-modulecache/* 2>/dev/null
+rm -f /var/lock/* 2>/dev/null
+
+#==============================================
+# 5. MARK AS DONE (prevent re-run)
+#==============================================
+touch /etc/config_init_done
+
+log "First boot setup complete!"
 exit 0
