@@ -1,4 +1,4 @@
-name: Build Amlogic s9xxx
+name: Build Amlogic s9xxx ophub
 
 on:
   workflow_dispatch:
