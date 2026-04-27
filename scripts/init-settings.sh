@@ -36,6 +36,13 @@ uci add_list system.ntp.server='2.id.pool.ntp.org'
 uci commit system
 
 #==============================================
+# 2.5. SHELL: Set root shell to bash
+#==============================================
+sed -i 's|^root:x:0:0:root:/root:/bin/ash|root:x:0:0:root:/root:/bin/bash|' /etc/passwd
+sed -i 's|^root:x:0:0:root:/root:/bin/sh|root:x:0:0:root:/root:/bin/bash|' /etc/passwd
+log "Shell updated to bash"
+
+#==============================================
 # 3. CLEANUP (free space)
 #==============================================
 log "Cleaning up..."
