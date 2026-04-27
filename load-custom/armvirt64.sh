@@ -11,8 +11,7 @@ imagebuilder_path="${make_path}/${openwrt_dir}"
 # PassWall packages (additional dependencies for PassWall2)
 passwall_packages_url="https://github.com/Openwrt-Passwall/openwrt-passwall2/releases/download/26.4.10-1/passwall_packages_apk_aarch64_generic.zip"
 
-# Clash cores for ARM64 (use MetaCubeX mihomo for reliability)
-clash="https://github.com/Kuingsmile/clash-core/releases/download/1.18/clash-linux-arm64-v1.18.0.gz"
+# mihomo (clash_meta) core for ARM64
 clash_meta="https://github.com/MetaCubeX/mihomo/releases/download/v1.19.24/mihomo-linux-arm64-v1.19.24.gz"
 
 # Other downloads
@@ -82,25 +81,16 @@ add_passwall_packages() {
 }
 
 add_clash_core() {
-    log "Downloading Clash cores..."
+    log "Downloading mihomo core..."
     mkdir -p "${imagebuilder_path}/files/etc/openclash/core/"
     cd "${imagebuilder_path}/files/etc/openclash/core/" || exit 1
     
-    # Download clash
-    if retry_download "${clash}" "clash.tar.gz"; then
-        tar xzf *tar.gz
-        mv -f clash-* clash 2>/dev/null || true
-        rm -f *tar.gz
-    else
-        log "Warning: Failed to download clash core"
-    fi
-    
-    # Download clash_meta (mihomo)
+    # Download mihomo (clash_meta)
     if retry_download "${clash_meta}" "clash_meta.gz"; then
         gunzip -f *.gz
         mv -f mihomo* clash_meta 2>/dev/null || true
     else
-        log "Warning: Failed to download clash_meta core"
+        log "Warning: Failed to download mihomo core"
     fi
     
     rm -f *.gz *tar.gz 2>/dev/null || true
