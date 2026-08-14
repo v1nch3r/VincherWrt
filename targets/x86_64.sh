@@ -190,7 +190,7 @@ run_custom_scripts() {
 build_rootfs() {
     log "Building rootfs..."
     
-    local my_packages="$(cat "${make_path}/packages.txt")"
+    local my_packages="$(tr '\n' ' ' < "${make_path}/packages.txt")"
     local package_count=$(echo $my_packages | wc -w)
     log "Installing $package_count packages..."
     
