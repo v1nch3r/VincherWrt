@@ -43,7 +43,27 @@ sed -i 's|^root:x:0:0:root:/root:/bin/sh|root:x:0:0:root:/root:/bin/bash|' /etc/
 log "Shell updated to bash"
 
 #==============================================
-# 3. CLEANUP (free space)
+# 4. WIFI: Enable USB WiFi (RTL8188FU) as AP
+#==============================================
+log "Configuring WiFi AP..."
+
+# Enable radio0 (USB WiFi adapter)
+uci set wireless.radio0.disabled='0'
+
+# Configure AP interface
+uci set wireless.default_radio0.disabled='0'
+uci set wireless.default_radio0.network='lan'
+uci set wireless.default_radio0.mode='ap'
+uci set wireless.default_radio0.ssid='VincherWrt'
+uci set wireless.default_radio0.encryption='psk2'
+uci set wireless.default_radio0.key='vincherwrt'
+uci set wireless.radio0.channel='1'
+uci set wireless.radio0.htmode='HT20'
+
+uci commit wireless
+
+#==============================================
+# 5. CLEANUP (free space)
 #==============================================
 log "Cleaning up..."
 
@@ -53,7 +73,7 @@ rm -rf /tmp/luci-modulecache/* 2>/dev/null
 rm -f /var/lock/* 2>/dev/null
 
 #==============================================
-# 4. MARK AS DONE (prevent re-run)
+# 6. MARK AS DONE (prevent re-run)
 #==============================================
 touch /etc/config_init_done
 
