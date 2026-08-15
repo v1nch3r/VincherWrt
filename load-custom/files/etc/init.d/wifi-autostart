@@ -3,24 +3,19 @@
 START=99
 
 start() {
+    # Wait for USB WiFi to be detected
     sleep 5
+
+    # Load module if not already loaded
     if ! lsmod | grep -q rtl8xxxu; then
         modprobe rtl8xxxu 2>/dev/null
         sleep 3
     fi
-    uci set wireless.radio0.disabled=0
-    uci set wireless.default_radio0.disabled=0
-    uci set wireless.default_radio0.mode=ap
-    uci set wireless.default_radio0.network=lan
-    uci set wireless.default_radio0.ssid=VincherWrt
-    uci set wireless.default_radio0.encryption=psk2
-    uci set wireless.default_radio0.key=vincherwrt
-    uci commit wireless
+
+    # Only reload wifi config, do NOT override user settings
     wifi reload
 }
 
 stop() {
-    uci set wireless.default_radio0.disabled=1
-    uci commit wireless
     wifi reload
 }
