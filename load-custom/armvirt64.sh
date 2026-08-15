@@ -113,6 +113,16 @@ add_custom_file() {
     retry_download "${neofetch_repo}" "${imagebuilder_path}/files/bin/neofetch"
     chmod +x "${imagebuilder_path}/files/bin/neofetch"
     
+    # Copy custom files (modules-boot.d, init.d scripts)
+    if [ -d "${make_path}/load-custom/files" ]; then
+        cp -r "${make_path}/load-custom/files/"* "${imagebuilder_path}/files/" 2>/dev/null || true
+    fi
+
+    # Enable wifi-autostart service
+    if [ -d "${imagebuilder_path}/files/etc/init.d" ]; then
+        chmod +x "${imagebuilder_path}/files/etc/init.d/wifi-autostart" 2>/dev/null || true
+    fi
+
     # Add scripts to uci-defaults
     mkdir -p "${imagebuilder_path}/files/etc/uci-defaults"
     if [ -d "${make_path}/scripts" ]; then
